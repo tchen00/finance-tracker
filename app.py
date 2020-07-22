@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.config['MONGO_DBNAME'] = 'users'
 
 # URI of database
-app.config['MONGO_URI'] = "mongodb+srv://admin:WSXgwxWUj7lTtK0K@cluster0.slptq.mongodb.net/users?retryWrites=true&w=majority"
+app.config['MONGO_URI'] = "mongodb+srv://admin:hodDWNc250mYoVIT@cluster0.slptq.mongodb.net/users?retryWrites=true&w=majority"
 
 mongo = PyMongo(app)
 
@@ -25,3 +25,12 @@ mongo = PyMongo(app)
 @app.route('/index')
 def index():
     return "yip yip"
+
+@app.route('/add')
+def add(): 
+    # connect to the database
+    users = mongo.db.users
+    # insert new data
+    users.insert({"user": "tammy", "transactions":"n"})
+    users.insert({"user": "edward", "transactions":"n"})
+    return "yay"
