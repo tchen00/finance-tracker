@@ -7,6 +7,8 @@ from flask_pymongo import PyMongo
 from flask import redirect
 from bson import ObjectId
 
+import model
+
 # -- Initialization section --
 app = Flask(__name__)
 
