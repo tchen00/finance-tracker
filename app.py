@@ -7,17 +7,26 @@ from flask_pymongo import PyMongo
 from flask import redirect
 from bson import ObjectId
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
 import model
 
 # -- Initialization section --
 app = Flask(__name__)
 
+# first load env variable 
+load_dotenv()
+
+# stores env variable with new names 
+MONGO_USER = os.getenv("MONGO_USER")
+MONGO_PASSWORD = os.getenv("MONGO_PASSWORD")
+
 # name of database
 app.config['MONGO_DBNAME'] = 'users'
 
 # URI of database
-app.config['MONGO_URI'] = "mongodb+srv://admin:hodDWNc250mYoVIT@cluster0.slptq.mongodb.net/users?retryWrites=true&w=majority"
+app.config['MONGO_URI'] = f"mongodb+srv://{MONGO_USER}:{MONGO_PASSWORD}@cluster0.slptq.mongodb.net/users?retryWrites=true&w=majority"
 
 mongo = PyMongo(app)
 users = mongo.db.users
@@ -43,9 +52,11 @@ def login():
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
-    return "sample"
-    """if request.method == "POST":
+    if request.method == "POST":
         toChange = str(request.form.get('category'))
+        print(toChange)
+        return "yay"
+        '''
         print(type(curUser))
         xy = list(users.find({"user": curUser, "assets": toChange}))
         print(x)
@@ -56,7 +67,8 @@ def update():
             print(i)
         x[toChange] = float(request.form["newval"])
 
-        return render_template("acct_view.html", user=curUser, message="Successfully updated.")"""
+        return render_template("acct_view.html", user=curUser, message="Successfully updated.")
+        '''
         
 @app.route('/add')
 def add():
