@@ -55,6 +55,10 @@ def update():
     if request.method == "POST":
         toChange = str(request.form.get('category'))
         print(toChange)
+        a = "assets" + "." + toChange
+        users.update({"user": "tammy"}, 
+            {"$set": {a: float(request.form['newval']),
+                }})
         return "yay"
         '''
         print(type(curUser))
