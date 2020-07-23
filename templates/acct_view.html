@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>Welcome, {{user.user}}</title>
+    </head>
+    <body>
+        <h1>Balance Sheet for {{user.user}}</h1>
+
+        <p>{{message}}</p>
+        <table border="1">
+            <tr>
+                <th>Assets</th>
+                <th>Liabilities</th>
+            </tr>
+
+            {% if user.assets|length > user.liabilities|length %}
+                {% for asset in user.assets %}
+                    <tr>
+                        <td>{{ asset }}: ${{ user.assets[asset] }}</td>
+                        {% if loop.index0 < user.liabilities|length %}
+                            <td>{{ (user.liabilities.keys()|list)[loop.index0] }}: ${{ (user.liabilities.values()|list)[loop.index0] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% else %}
+                {% for liab in user.liabilities %}
+                <tr>
+                    {% if loop.index0 < user.assets|length %}
+                        <td>{{(user.assets.keys()|list)[loop.index0]}}: ${{ (user.assets.values()|list)[loop.index0]}}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    <td>{{liab}}: ${{user.liabilities[liab]}}</td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+        <h3>Update form</h3>
+        <form method="post" action="/update">
+            <label for="category">Choose a category whose value to replace:</label>
+            <select name="category">
+                {% for asset in user.assets %}
+                    <option value="{{asset}}">{{asset}}</option>
+                {% endfor %}
+                {% for liab in user.liabilities %}
+                    <option value="{{liab}}">{{liab}}</option>
+                {% endfor %}
+            </select>
+
+            $<input type="text" name="newval"></input><br>
+            <input type="submit" value="Update">
+        </form>
+    </body>
+</html>
