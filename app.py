@@ -31,7 +31,6 @@ mongo = PyMongo(app)
 users = mongo.db.users
 curUser = ""
 
-
 def checkAuth():
     if "username" in session:
         return True
