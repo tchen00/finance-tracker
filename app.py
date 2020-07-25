@@ -43,7 +43,7 @@ def checkAuth():
 def index():
     if checkAuth(): # if logged in
         curUser = list(users.find({"user": session['username']}))[0]
-        return render_template('acct_view.html', user=curUser, message="")
+        return render_template('dashboard.html', user=curUser, message="")
     else:
         return redirect('/login')
 
@@ -56,17 +56,17 @@ def login():
         print(loginUsers)
         if len(loginUsers) == 0:
             flash("Login failed. Username does not exist.")
-            return render_template("index.html", message= "Login failed. Username does not exist.")
+            return render_template("login.html", message= "Login failed. Username does not exist.")
         else: 
             correctPass = loginUsers[0]['password']
             if password == correctPass: 
                 session['username'] = username
                 curUser = loginUsers[0]
-                return render_template("acct_view.html", user=curUser, message="")
+                return render_template("dashboard.html", user=curUser, message="")
             else: 
-                return render_template("index.html", message= "Login failed. Password is incorrect.")
+                return render_template("login.html", message= "Login failed. Password is incorrect.")
     else:
-        return render_template("index.html", message="")
+        return render_template("login.html", message="")
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
@@ -89,7 +89,7 @@ def update():
             print(i)
         x[toChange] = float(request.form["newval"])
 
-        return render_template("acct_view.html", user=curUser, message="Successfully updated.")
+        return render_template("dashboard.html", user=curUser, message="Successfully updated.")
         '''
         
 @app.route('/add')
