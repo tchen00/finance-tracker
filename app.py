@@ -68,6 +68,25 @@ def login():
     else:
         return render_template("login.html", message="")
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        repeatPassword = request.form['repeatPassword']
+        loginUsers = list(users.find({"user": username}))
+        if len(loginUsers) == 1:
+            return render_template("signup.html", message= "This user already exists. Please try another!")
+        else: 
+            if password != repeatPassword: 
+                return render_template("signup.html", message="The passwords do not match.")
+            else: 
+                users.insert({"user": username, "password": password, "expenses":{}})
+                return redirect('/login')
+    else:
+        return render_template("signup.html", message="")
+
+
 @app.route('/update', methods=['GET', 'POST'])
 def update():
     if request.method == "POST":
