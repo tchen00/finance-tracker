@@ -1,19 +1,18 @@
 # ---- YOUR APP STARTS HERE ----
 # -- Import section --
-from flask import Flask
-from flask import render_template
-from flask import request
+from flask import Flask, render_template, request, session, url_for, redirect, flash
 from flask_pymongo import PyMongo
-from flask import redirect
 from bson import ObjectId
 from datetime import datetime
 import os
 from dotenv import load_dotenv
-
-import model
+#from model import checkAuth
 
 # -- Initialization section --
 app = Flask(__name__)
+
+#creates secret key for sessions
+app.secret_key = os.urandom(32)
 
 # first load env variable 
 load_dotenv()
@@ -32,23 +31,43 @@ mongo = PyMongo(app)
 users = mongo.db.users
 curUser = ""
 
+
+def checkAuth():
+    if "username" in session:
+        return True
+    else:
+        return False
+
 # -- Routes section --
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("index.html", time=datetime.now())
+    if checkAuth(): # if logged in
+        curUser = list(users.find({"user": session['username']}))[0]
+        return render_template('acct_view.html', user=curUser, message="")
+    else:
+        return redirect('/login')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        loginUsers = list(users.find({"user": request.form['username']}))
-
-        if len(loginUsers) > 0:
-            curUser = loginUsers[0]
-            return render_template("acct_view.html", user=curUser, message="")
-        return render_template("index.html", message="Login failed. Please try again.")
+        username = request.form['username']
+        password = request.form['password']
+        loginUsers = list(users.find({"user": username}))
+        print(loginUsers)
+        if len(loginUsers) == 0:
+            flash("Login failed. Username does not exist.")
+            return render_template("index.html", message= "Login failed. Username does not exist.")
+        else: 
+            correctPass = loginUsers[0]['password']
+            if password == correctPass: 
+                session['username'] = username
+                curUser = loginUsers[0]
+                return render_template("acct_view.html", user=curUser, message="")
+            else: 
+                return render_template("index.html", message= "Login failed. Password is incorrect.")
     else:
-        return ""
+        return render_template("index.html", message="")
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
@@ -80,7 +99,7 @@ def add():
 
     # overwrite old data with new:
     users.remove({})
-    users.insert({"user": "tammy", "assets":{"Required Reserves": 400, "Excess Reserves": 100, "Loans": 1000}, 
+    users.insert({"user": "tammy", "password": "yay", "assets":{"Required Reserves": 400, "Excess Reserves": 100, "Loans": 1000}, 
                     "liabilities":{"Demand Deposits": 7000, "Other liabilities": 123, "Owner's Equity": 400}})
 
     print(loadUsers())
