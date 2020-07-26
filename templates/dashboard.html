@@ -1,7 +1,7 @@
 <html>
 
 <head>
-	<title>Welcome, {{user.user}}</title>
+	<title>Welcome, {{user.firstName}}</title>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -75,20 +75,20 @@
 
 	<p>{{message}}</p>
     
-    <h1>Balance Sheet for {{user.user}}</h1>
+    <h1>Balance Sheet for {{user.firstName}}</h1>
 
 	<table border="1">
 		<tr>
-			<th>Assets</th>
-			<th>Liabilities</th>
+			<th>Deposits</th>
+			<th>Withdrawls</th>
 		</tr>
 
-		{% if user.assets|length > user.liabilities|length %}
-		{% for asset in user.assets %}
+		{% if user.deposits|length > user.withdrawls|length %}
+		{% for deposit in user.deposits %}
 		<tr>
-			<td>{{ asset }}: ${{ user.assets[asset] }}</td>
-			{% if loop.index0 < user.liabilities|length %}
-			<td>{{ (user.liabilities.keys()|list)[loop.index0] }}: ${{ (user.liabilities.values()|list)[loop.index0] }}
+			<td>{{ deposit }}: ${{ user.deposits[deposit] }}</td>
+			{% if loop.index0 < user.withdrawls|length %}
+			<td>{{ (user.withdrawls.keys()|list)[loop.index0] }}: ${{ (user.withdrawls.values()|list)[loop.index0] }}
 			</td>
 			{% else %}
 			<td></td>
@@ -96,14 +96,14 @@
 		</tr>
 		{% endfor %}
 		{% else %}
-		{% for liab in user.liabilities %}
+		{% for withdrawl in user.withdrawls %}
 		<tr>
-			{% if loop.index0 < user.assets|length %}
-			<td>{{(user.assets.keys()|list)[loop.index0]}}: ${{ (user.assets.values()|list)[loop.index0]}}</td>
+			{% if loop.index0 < user.deposits|length %}
+			<td>{{(user.deposits.keys()|list)[loop.index0]}}: ${{ (user.deposits.values()|list)[loop.index0]}}</td>
 			{% else %}
 			<td></td>
 			{% endif %}
-			<td>{{liab}}: ${{user.liabilities[liab]}}</td>
+			<td>{{withdrawl}}: ${{user.withdrawls[withdrawl]}}</td>
 		</tr>
 		{% endfor %}
 		{% endif %}
@@ -112,11 +112,11 @@
 	<form method="post" action="/update">
 		<label for="category">Choose a category whose value to replace:</label>
 		<select name="category">
-                {% for asset in user.assets %}
-                    <option value="{{asset}}">{{asset}}</option>
+                {% for deposit in user.deposits %}
+                    <option value="{{deposit}}">{{deposit}}</option>
                 {% endfor %}
-                {% for liab in user.liabilities %}
-                    <option value="{{liab}}">{{liab}}</option>
+                {% for withdrawl in user.withdrawls %}
+                    <option value="{{withdrawl}}">{{withdrawl}}</option>
                 {% endfor %}
             </select>
 

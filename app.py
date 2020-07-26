@@ -68,6 +68,8 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
         username = request.form['username']
         password = request.form['password']
         repeatPassword = request.form['repeatPassword']
@@ -78,7 +80,7 @@ def signup():
             if password != repeatPassword: 
                 return render_template("signup.html", message="The passwords do not match.")
             else: 
-                users.insert({"user": username, "password": password, "expenses":{}})
+                users.insert({"user": username, "password": password, "firstName": firstName, "lastName": lastName, "expenses":{}})
                 return redirect('/login')
     else:
         return render_template("signup.html", message="")
@@ -114,15 +116,17 @@ def add():
 
     # overwrite old data with new:
     users.remove({})
-    users.insert({"user": "tammy", "password": "yay", "assets":{"Required Reserves": 400, "Excess Reserves": 100, "Loans": 1000}, 
-                    "liabilities":{"Demand Deposits": 7000, "Other liabilities": 123, "Owner's Equity": 400}})
+    users.insert({"user": "tammy", "password": "yay", "firstName": "Tammy", "lastName": "Chen", "deposits":{"Required Reserves": 400, "Excess Reserves": 100, "Loans": 1000}, 
+                    "withdrawls":{"Demand Deposits": 7000, "Other liabilities": 123, "Owner's Equity": 400}})
 
-    print(loadUsers())
+    #print(loadUsers())
     return "yay"
 
+'''
 def loadUsers():
     users = mongo.db.users
     return list(users.find({}))
+'''
 
 @app.route('/logout')
 def logout():
