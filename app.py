@@ -32,10 +32,7 @@ users = mongo.db.users
 curUser = ""
 
 def checkAuth():
-    if "username" in session:
-        return True
-    else:
-        return False
+    return "username" in session
 
 # -- Routes section --
 @app.route('/')
@@ -126,3 +123,8 @@ def add():
 def loadUsers():
     users = mongo.db.users
     return list(users.find({}))
+
+@app.route('/logout')
+def logout():
+    session.pop('username')
+    return redirect('/login')
