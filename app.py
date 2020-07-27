@@ -57,8 +57,8 @@ def login():
             correctPass = loginUsers[0]['password']
             if password == correctPass: 
                 session['username'] = username
-                curUser = loginUsers[0]
-                return render_template("dashboard.html", user=curUser, message="")
+                return redirect('/dashboard')
+                # return render_template("dashboard.html", user=curUser, message="")
             else: # if password incorrect --> prompt login again 
                 return render_template("login.html", message= "Login failed. Password is incorrect.")
     else: 
@@ -125,7 +125,19 @@ def loadUsers():
     return list(users.find({}))
 '''
 
+@app.route('/dashboard')
+def dashboard(): 
+    if checkAuth(): 
+        username = session['username']
+        userInfo = list(users.find({"user": username}))[0]
+        return render_template("dashboard.html", user=userInfo, message="")
+    else:
+        return redirect('/login')
+
 @app.route('/logout')
 def logout():
-    session.pop('username')
-    return redirect('/login')
+    if checkAuth():
+        session.pop('username')
+        return redirect('/login')
+    else: 
+        return redirect('/login')
