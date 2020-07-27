@@ -179,6 +179,7 @@ def preferences():
                 users.update({"user": username}, {"$set": {"user": user,}})
                 session['username'] = user
                 username = session['username']
+                userInfo = list(users.find({"user": username}))[0]
             if not isEmpty(password) and not isEmpty(repeatPassword): 
                 if password != repeatPassword: 
                     return render_template("preferences.html", user = userInfo, message="Passwords do not match.")
