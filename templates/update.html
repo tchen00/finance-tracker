@@ -69,45 +69,23 @@
   </div>
 </nav>
 <!--/.Navbar -->
+	<h3>UPDATE FORM</h3>
+	<form method="post" action="/update">
+		<label for="category">Choose a category whose value to replace:</label>
+		<select name="category">
+                {% for deposit in user.deposits %}
+                    <option value="{{deposit}}">{{deposit}}</option>
+                {% endfor %}
+                {% for withdrawl in user.withdrawls %}
+                    <option value="{{withdrawl}}">{{withdrawl}}</option>
+                {% endfor %}
+            </select>
 
-    <center>
+		$<input type="text" name="newval"></input><br>
+		<input type="submit" value="Update">
+    </form>
 
-	<p>{{message}}</p>
-    
-    <h1>Balance Sheet for {{user.firstName}}</h1>
 
-	<table border="1">
-		<tr>
-			<th>Deposits</th>
-			<th>Withdrawls</th>
-		</tr>
-
-		{% if user.deposits|length > user.withdrawls|length %}
-		{% for deposit in user.deposits %}
-		<tr>
-			<td>{{ deposit }}: ${{ user.deposits[deposit] }}</td>
-			{% if loop.index0 < user.withdrawls|length %}
-			<td>{{ (user.withdrawls.keys()|list)[loop.index0] }}: ${{ (user.withdrawls.values()|list)[loop.index0] }}
-			</td>
-			{% else %}
-			<td></td>
-			{% endif %}
-		</tr>
-		{% endfor %}
-		{% else %}
-		{% for withdrawl in user.withdrawls %}
-		<tr>
-			{% if loop.index0 < user.deposits|length %}
-			<td>{{(user.deposits.keys()|list)[loop.index0]}}: ${{ (user.deposits.values()|list)[loop.index0]}}</td>
-			{% else %}
-			<td></td>
-			{% endif %}
-			<td>{{withdrawl}}: ${{user.withdrawls[withdrawl]}}</td>
-		</tr>
-		{% endfor %}
-		{% endif %}
-	</table>
-	
 </body>
 
 </html>

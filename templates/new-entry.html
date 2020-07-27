@@ -70,44 +70,17 @@
 </nav>
 <!--/.Navbar -->
 
-    <center>
-
-	<p>{{message}}</p>
-    
-    <h1>Balance Sheet for {{user.firstName}}</h1>
-
-	<table border="1">
-		<tr>
-			<th>Deposits</th>
-			<th>Withdrawls</th>
-		</tr>
-
-		{% if user.deposits|length > user.withdrawls|length %}
-		{% for deposit in user.deposits %}
-		<tr>
-			<td>{{ deposit }}: ${{ user.deposits[deposit] }}</td>
-			{% if loop.index0 < user.withdrawls|length %}
-			<td>{{ (user.withdrawls.keys()|list)[loop.index0] }}: ${{ (user.withdrawls.values()|list)[loop.index0] }}
-			</td>
-			{% else %}
-			<td></td>
-			{% endif %}
-		</tr>
-		{% endfor %}
-		{% else %}
-		{% for withdrawl in user.withdrawls %}
-		<tr>
-			{% if loop.index0 < user.deposits|length %}
-			<td>{{(user.deposits.keys()|list)[loop.index0]}}: ${{ (user.deposits.values()|list)[loop.index0]}}</td>
-			{% else %}
-			<td></td>
-			{% endif %}
-			<td>{{withdrawl}}: ${{user.withdrawls[withdrawl]}}</td>
-		</tr>
-		{% endfor %}
-		{% endif %}
-	</table>
-	
-</body>
-
-</html>
+    <h3>NEW ENTRY FORM</h3>
+	<form method="post" action="/new_entry">
+		<label for="category">Withdrawl or Deposit?</label>
+		<select name="category">
+            <option value="deposits">Deposit</option>
+            <option value="withdrawls">Withdrawl</option>
+        </select>
+        <br>
+        Details: <input type="text" name="title"></input><br>
+        <br>
+		Amount: <input type="text" name="amount"></input><br>
+        <br>
+		<input type="submit" value="Add">
+    </form>

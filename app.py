@@ -37,7 +37,6 @@ def checkAuth():
 @app.route('/')
 @app.route('/index')
 def index():
-    
     if checkAuth(): # if logged in
         curUser = list(users.find({"user": session['username']}))[0]
         return render_template('dashboard.html', user=curUser, message="")
@@ -87,14 +86,20 @@ def signup():
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
-    if request.method == "POST":
-        toChange = str(request.form.get('category'))
-        # print(toChange)
-        a = "deposits" + "." + toChange
-        users.update({"user": "tammy"}, 
-            {"$set": {a: float(request.form['newval']),
-                }})
-        return "yay"
+    if checkAuth(): 
+        username = session['username']
+        userInfo = list(users.find({"user": username}))[0]
+        if request.method == "POST":
+            toChange = str(request.form.get('category'))
+            a = "deposits" + "." + toChange
+            users.update({"user": username}, 
+                {"$set": {a: float(request.form['newval']),
+                    }})
+            return redirect('/dashboard')
+        else: 
+            return render_template("update.html", user=userInfo)
+    else: 
+        return redirect('/login')
 
         '''
         print(type(curUser))
@@ -109,12 +114,30 @@ def update():
 
         return render_template("dashboard.html", user=curUser, message="Successfully updated.")
         '''
-        
+
+@app.route('/new_entry', methods=['GET', 'POST'])
+def new_entry():
+    if checkAuth(): 
+        username = session['username']
+        userInfo = list(users.find({"user": username}))[0]
+        if request.method == "POST":
+            title = request.form['title']
+            toChange = str(request.form.get('category'))
+            a = toChange + "." + title
+            users.update({"user": username}, 
+                {"$set": {a: float(request.form['amount']),
+                    }})
+            return redirect('/dashboard')
+        else: 
+            return render_template("new-entry.html", user=userInfo)
+    else: 
+        return redirect('/login')
+
 @app.route('/add')
 def add():
     users.remove({})
-    users.insert({"user": "tammy", "password": "yay", "firstName": "Tammy", "lastName": "Chen", "deposits":{"Required Reserves": 400, "Excess Reserves": 100, "Loans": 1000}, 
-                    "withdrawls":{"Demand Deposits": 7000, "Other liabilities": 123, "Owner's Equity": 400}})
+    users.insert({"user": "tammy", "password": "yay", "firstName": "Tammy", "lastName": "Chen", "deposits":{"Work - May A": 410, "Work - May B": 320, "Allowance": 30}, 
+                    "withdrawls":{"Brunch w/ Friends": 22, "Airpods": 250, "Mini-fan": 19}})
 
     #print(loadUsers())
     return "yay"
@@ -141,3 +164,5 @@ def logout():
         return redirect('/login')
     else: 
         return redirect('/login')
+
+
