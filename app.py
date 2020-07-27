@@ -6,8 +6,7 @@ from datetime import datetime
 import os
 from dotenv import load_dotenv
 import bcrypt
-
-#from model import checkAuth
+from model import *
 
 # -- INITIALIZATION of APP --
 app = Flask(__name__)
@@ -157,6 +156,38 @@ def dashboard():
         userInfo = list(users.find({"user": username}))[0]
         return render_template("dashboard.html", user=userInfo, message="")
     else:
+        return redirect('/login')
+
+@app.route('/preferences', methods=["GET", "POST"])
+def preferences(): 
+    if checkAuth(): 
+        username = session['username']
+        userInfo = list(users.find({"user": username}))[0]
+        if request.method == 'POST':
+            firstName = request.form['firstName']
+            lastName = request.form['lastName']
+            user = request.form['username']
+            password = request.form['password']
+            repeatPassword = request.form['repeatPassword']
+            if isEmpty(firstName) and isEmpty(lastName) and isEmpty(user) and isEmpty(password): 
+                return render_template("preferences.html", user = userInfo, message="You did not fill in any of the information.")
+            if not isEmpty(firstName): 
+                users.update({"user": username}, {"$set": {"firstName": firstName,}})
+            if not isEmpty(lastName): 
+                users.update({"user": username}, {"$set": {"lastName": lastName,}})
+            if not isEmpty(user): 
+                users.update({"user": username}, {"$set": {"user": user,}})
+                session['username'] = user
+                username = session['username']
+            if not isEmpty(password) and not isEmpty(repeatPassword): 
+                if password != repeatPassword: 
+                    return render_template("preferences.html", user = userInfo, message="Passwords do not match.")
+                else:
+                    users.update({"user": username}, {"$set": {"password": str(bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt()), 'utf-8'), }})
+            return render_template('dashboard.html', user= userInfo, message="credentials updated")
+        else: 
+            return render_template("preferences.html", user = userInfo, message="")
+    else: 
         return redirect('/login')
 
 @app.route('/logout')

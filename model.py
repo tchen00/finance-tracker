@@ -20,3 +20,8 @@ class User:
         self.userId = userId
         self.balanceSht = balanceSht
 """
+
+
+def isEmpty(input): 
+    return input == ''
+    

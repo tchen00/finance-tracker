@@ -60,6 +60,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-default"
           aria-labelledby="navbarDropdownMenuLink-333">
+          <a class="dropdown-item" href="#">Account Information</a>
           <a class="dropdown-item" href="/preferences">My Preferences</a>
           <hr>
           <a class="dropdown-item" href="/logout">Logout</a>
@@ -70,44 +71,22 @@
 </nav>
 <!--/.Navbar -->
 
-    <center>
-
-	<p>{{message}}</p>
-    
-    <h1>Balance Sheet for {{user.firstName}}</h1>
-
-	<table border="1">
-		<tr>
-			<th>Deposits</th>
-			<th>Withdrawls</th>
-		</tr>
-
-		{% if user.deposits|length > user.withdrawls|length %}
-		{% for deposit in user.deposits %}
-		<tr>
-			<td>{{ deposit }}: ${{ user.deposits[deposit] }}</td>
-			{% if loop.index0 < user.withdrawls|length %}
-			<td>{{ (user.withdrawls.keys()|list)[loop.index0] }}: ${{ (user.withdrawls.values()|list)[loop.index0] }}
-			</td>
-			{% else %}
-			<td></td>
-			{% endif %}
-		</tr>
-		{% endfor %}
-		{% else %}
-		{% for withdrawl in user.withdrawls %}
-		<tr>
-			{% if loop.index0 < user.deposits|length %}
-			<td>{{(user.deposits.keys()|list)[loop.index0]}}: ${{ (user.deposits.values()|list)[loop.index0]}}</td>
-			{% else %}
-			<td></td>
-			{% endif %}
-			<td>{{withdrawl}}: ${{user.withdrawls[withdrawl]}}</td>
-		</tr>
-		{% endfor %}
-		{% endif %}
-	</table>
-	
+    <h3>Your Preferences</h3>
+    <br>
+    {{message}}
+    <br>
+	<form method="post" action="/preferences">
+        <br>
+        First Name: <input type="text" name="firstName"></input><br>
+        <br>
+		Last Name: <input type="text" name="lastName"></input><br>
+        <br>
+        Username: <input type="text" name="username"></input><br>
+        <br>
+        Password: <input type="password" name="password"></input><br>
+        <br>
+        Re-enter Password: <input type="password" name="repeatPassword"></input><br>
+        <br>
+		<input type="submit" value="Update">
 </body>
-
 </html>
