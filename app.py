@@ -5,6 +5,8 @@ from bson import ObjectId
 from datetime import datetime
 import os
 from dotenv import load_dotenv
+import bcrypt
+
 #from model import checkAuth
 
 # -- INITIALIZATION of APP --
@@ -53,8 +55,8 @@ def login():
             flash("Login failed. Username does not exist.")
             return render_template("login.html", message= "Login failed. Username does not exist.")
         else:
-            correctPass = loginUsers[0]['password']
-            if password == correctPass: 
+            #correctPass = loginUsers[0]['password']
+            if bcrypt.hashpw(request.form['password'].encode('utf-8'), loginUsers[0]['password'].encode('utf-8')) == loginUsers[0]['password'].encode('utf-8'):
                 session['username'] = username
                 return redirect('/dashboard')
                 # return render_template("dashboard.html", user=curUser, message="")
@@ -78,7 +80,7 @@ def signup():
             if password != repeatPassword: 
                 return render_template("signup.html", message="The passwords do not match.")
             else: 
-                users.insert({"user": username, "password": password, "firstName": firstName, "lastName": lastName, "expenses":{}})
+                users.insert({"user": username, "password": str(bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt()), 'utf-8'), "firstName": firstName, "lastName": lastName, "expenses":{}})
                 return redirect('/login')
     else:
         return render_template("signup.html", message="")
@@ -136,8 +138,8 @@ def new_entry():
 @app.route('/add')
 def add():
     users.remove({})
-    users.insert({"user": "tammy", "password": "yay", "firstName": "Tammy", "lastName": "Chen", "deposits":{"Work - May A": 410, "Work - May B": 320, "Allowance": 30}, 
-                    "withdrawls":{"Brunch w/ Friends": 22, "Airpods": 250, "Mini-fan": 19}})
+    #users.insert({"user": "tammy", "password": "yay", "firstName": "Tammy", "lastName": "Chen", "deposits":{"Work - May A": 410, "Work - May B": 320, "Allowance": 30}, 
+    #               "withdrawls":{"Brunch w/ Friends": 22, "Airpods": 250, "Mini-fan": 19}})
 
     #print(loadUsers())
     return "yay"
@@ -164,5 +166,6 @@ def logout():
         return redirect('/login')
     else: 
         return redirect('/login')
+
 
 

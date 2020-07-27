@@ -23,14 +23,32 @@
 
         <p>{{message}}</p>
 
-        <form method="POST" action="/signup">
-            <label>First Name: </label><input type="text" name="firstName" required/><br>
-            <label>Last Name: </label><input type="text" name="lastName" required/><br>
-            <label>Username: </label><input type="text" name="username" required/><br>
-            <label>Password: </label><input type="password" name="password" required /><br>
-            <label>Reenter Password: </label><input type="password" name="repeatPassword" required /><br>
-            <input type="submit" value="Log in"/>
-        </form>
+        <div class="card" style="width: 20rem;">
+            <form method="POST" action="/signup">
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" class="form-control" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" class="form-control" name="lastName" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Retype Password:</label>
+                    <input type="password" class="form-control" name="repeatPassword" required>
+                </div>
+                <button type="submit" class="btn btn-dark">Sign Up</button>
+            </form>
+        </div>
+
         </center>
     </body>
 </html>
