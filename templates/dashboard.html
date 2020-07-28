@@ -98,15 +98,29 @@
 		{% for withdrawl in user.withdrawls %}
 		<tr>
 			{% if loop.index0 < user.deposits|length %}
+<<<<<<< HEAD
 			<td>{{(user.deposits.keys()|list)[loop.index0]}}: {{ formatMoney((user.deposits.values()|list)[loop.index0]) }}</td>
 			{% else %}
 			<td></td>
 			{% endif %}
 			<td>{{withdrawl}}: {{ formatMoney(user.withdrawls[withdrawl]) }}</td>
+=======
+			<td>{{(user.deposits.keys()|list)[loop.index0]}}: {{ formatMoney((user.deposits.values()|list)[loop.index0])}}</td>
+			{% else %}
+			<td></td>
+			{% endif %}
+			<td>{{withdrawl}}: ${{formatMoney(user.withdrawls[withdrawl])}}</td>
+>>>>>>> ab28b883915d2b0d025a556ba50e75f038748426
 		</tr>
 		{% endfor %}
 		{% endif %}
 	</table>
+<<<<<<< HEAD
+=======
+	
+    <h3> {{balance}}
+    </h3>
+>>>>>>> ab28b883915d2b0d025a556ba50e75f038748426
 </body>
 
 </html>

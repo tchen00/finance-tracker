@@ -1,44 +1,87 @@
 <html>
-    <head>
-        <title>Welcome!</title>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
-        <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-        <!-- Compiled and minified JavaScript -->
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
-        </script>
-    </head>
-    <body>
-        <center>
-        <h1>LOG IN</h1>
+<head>
+	<title>Welcome!</title>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fjalla+One&family=Roboto:ital,wght@0,100;0,500;1,100&display=swap"
+		rel="stylesheet">
 
-        <p>{{message}}</p>
-        <div class="card" style="width: 20rem;">
-            <form method="POST" action="/login">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control" name="password" required>
-                </div>
-                <button type="submit" class="btn btn-dark">Log In</button>
-            </form>
-        </div>
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+	</script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+	</script>
+	<style>
+		.masthead {
+			height: 100vh;
+			min-height: 500px;
+			background-image: url('/static/images/login4.jpg');
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+	</style>
+</head>
 
-        <br>
-        <a href="/signup"> Don't have an account? </a>
-        </center>
-    </body>
+<body>
+	<header class="masthead">
+		<div class="container h-100">
+			<div class="row h-100 align-items-center">
+				<div class="col-12 text-center">
+					<h1 class="font-weight-light" style="font-family: 'Bebas Neue', cursive;font-size: 100px;"> LOGIN
+					</h1>
+                    
+					<!-- <p class="lead">PROJECT TECK</p> -->
+					<p>{{message}}</p>
+					<div class="row">
+						<div class="col-2"></div>
+						<div class="col-8">
+							<div class="card" style="display: none;">
+								<form method="POST" action="/login">
+									<div class="form-group" style="">
+										<div class="form-group row">
+                                            <div col="col-8">
+                                            </div>
+											<div class="col-sm-5">
+                                    </div>
+											</div>
+										</div>
+									</div>
+                                    <div class="form-group">
+										<label for="username">Username:</label>
+										<input type="username" class="form-control" name="username" placeholder="Username" required>
+                                    </div>
+									<div class="form-group">
+										<label for="password">Password:</label>
+										<input type="password" class="form-control" name="password" placeholder="Password" required>
+                                    </div>
+										<button type="submit" class="btn btn-dark">Log In</button>
+								</form>
+							</div>
+						</div>
+
+						<br>
+						<a href="/signup">
+							<button type="button" class="btn btn-outline-dark btn-sm" style="font-family: 'Fjalla One', sans-serif;">DON'T HAVE AN ACCOUNT?</button>
+						</a>
+					</div>
+				</div>
+			</div>
+	</header>
+	<center>
+
+
+	</center>
+</body>
+
 </html>

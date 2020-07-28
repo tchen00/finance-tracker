@@ -69,8 +69,20 @@
 </nav>
 <!--/.Navbar -->
 	<h3>UPDATE FORM</h3>
-	<form method="post" action="/update">
+
+
+<form name="feedback" action="/update" method="post">
+
+  <label>
+    <input type="radio" id="deposit" name="yesOrNo" value="deposit" onchange="displayQuestion(this.value)" />Deposit</label>
+  <label>
+    <input type="radio" id="withdrawl" name="yesOrNo" value="withdrawl" onchange="displayQuestion(this.value)" />Withdrawl</label>
+</form>
+
+  <div id="depositQuestion" style="display:none;"><br/>
+  <form method="post" action="/update">
 		<label for="category">Choose a category whose value to replace:</label>
+<<<<<<< HEAD
 
         <input type="radio" id="deposits" name="category" value="deposits" checked onchange="changeComboBox({{user.deposits}}); showCurVal({{user.deposits}}, {{user.withdrawls}})">
         <label for="deposits">Deposit</label>
@@ -88,17 +100,53 @@
         </select>
 
 		<input type="text" id="newval" name="newval"><br>
+=======
+		<select name="category">
+                {% for deposit in user.deposits %}
+                    <option value="{{deposit}}">{{deposit}}</option>
+                {% endfor %}
+        </select>
+        $<input type="text" name="newval"></input><br>
 		<input type="submit" value="Update">
     </form>
+  </div>
+
+  <div id="withdrawlQuestion" style="display:none;"><br/>
+    <form method="post" action="/update">
+		<label for="category">Choose a category whose value to replace:</label>
+		<select name="category">
+                {% for withdrawl in user.withdrawls %}
+                    <option value="{{withdrawl}}">{{withdrawl}}</option>
+                {% endfor %}
+        </select>
+        $<input type="text" name="newval"></input><br>
+>>>>>>> ab28b883915d2b0d025a556ba50e75f038748426
+		<input type="submit" value="Update">
+    </form>
+  </div>
 
     <script>
         function changeComboBox(stuffToShow)
         {
             var comboBox = document.getElementById("category");
 
+<<<<<<< HEAD
             var length = comboBox.options.length;
             for (i = length-1; i >= 0; i--)
                 comboBox.options[i] = null;
+=======
+    <script>
+        function displayQuestion(answer) {
+            document.getElementById(answer + 'Question').style.display = "block";
+            if (answer == "deposit") { // hide the div that is not selected
+                document.getElementById('withdrawlQuestion').style.display = "none";
+            } else if (answer == "withdrawl") {
+                document.getElementById('depositQuestion').style.display = "none";
+            }
+            }
+    </script>
+</body>
+>>>>>>> ab28b883915d2b0d025a556ba50e75f038748426
 
             for (var key in stuffToShow) {
                 var el = document.createElement("option");

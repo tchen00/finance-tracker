@@ -8,8 +8,10 @@ from dotenv import load_dotenv
 import bcrypt
 from model import *
 
+
 # -- INITIALIZATION of APP --
 app = Flask(__name__)
+app.jinja_env.globals.update(formatMoney=formatMoney)
 
 # -- CREATION of SECRET KEY for SESSION --
 app.secret_key = os.urandom(32)
@@ -93,7 +95,9 @@ def update():
     if checkAuth(): 
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
+        print(userInfo["deposits"])
         if request.method == "POST":
+<<<<<<< HEAD
             toChange = str(request.form.get('details'))
             if toChange in userInfo["deposits"].keys():
                 a = "deposits." + toChange
@@ -103,6 +107,15 @@ def update():
             print("DEBUGGGGGGGGGGGGGGGGGGGGGGGG: " + username)
             users.update({"user": username},
                 {"$set": {a: float(request.form['newval'][1:]),     # substring to remove dollar sign from input
+=======
+            toChange = str(request.form.get('category'))
+            if toChange in userInfo["deposits"].keys():
+                a = "deposits" + "." + toChange
+            else: 
+                a = "withdrawls" + "." + toChange
+            users.update({"user": username}, 
+                {"$set": {a: float(request.form['newval']),
+>>>>>>> ab28b883915d2b0d025a556ba50e75f038748426
                     }})
 
             userInfo = list(users.find({"user": username}))[0]
@@ -167,7 +180,16 @@ def dashboard():
     if checkAuth(): 
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
-        return render_template("dashboard.html", user=userInfo, message="")
+        balance = 0
+        
+        if len(userInfo["deposits"].values()) > 0:
+            for i in userInfo["deposits"].values():
+                balance += i
+        if len(userInfo["withdrawls"].values()) > 0:
+            for i in userInfo["withdrawls"].values():
+                balance -= i
+        
+        return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(balance))
     else:
         return render_template("login.html", message="") #redirect('/login')
 
