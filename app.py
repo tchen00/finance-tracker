@@ -30,6 +30,8 @@ mongo = PyMongo(app)
 users = mongo.db.users
 curUser = ""
 
+app.jinja_env.globals.update(formatMoney=formatMoney)
+
 # checks if user is already logged in 
 def checkAuth():
     return "username" in session
@@ -58,8 +60,8 @@ def login():
             #correctPass = loginUsers[0]['password']
             if bcrypt.hashpw(request.form['password'].encode('utf-8'), loginUsers[0]['password'].encode('utf-8')) == loginUsers[0]['password'].encode('utf-8'):
                 session['username'] = username
-                return redirect('/dashboard')
-                # return render_template("dashboard.html", user=curUser, message="")
+                # return redirect('/dashboard')
+                return render_template("dashboard.html", user=loginUsers[0], message="")
             else: # if password incorrect --> prompt login again 
                 return render_template("login.html", message= "Login failed. Password is incorrect.")
     else: 
@@ -75,13 +77,13 @@ def signup():
         repeatPassword = request.form['repeatPassword']
         loginUsers = list(users.find({"user": username}))
         if len(loginUsers) == 1:
-            return render_template("signup.html", message= "This username already exists. Please try another!")
+            return render_template("signup.html", message="This username already exists. Please try another!")
         else: 
             if password != repeatPassword: 
                 return render_template("signup.html", message="The passwords do not match.")
             else: 
                 users.insert({"user": username, "password": str(bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt()), 'utf-8'), "firstName": firstName, "lastName": lastName, "expenses":{}})
-                return redirect('/login')
+                return render_template("login.html", message="") # redirect('/login')
     else:
         return render_template("signup.html", message="")
 
@@ -92,16 +94,24 @@ def update():
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
         if request.method == "POST":
-            toChange = str(request.form.get('category'))
-            a = "deposits" + "." + toChange
-            users.update({"user": username}, 
-                {"$set": {a: float(request.form['newval']),
+            toChange = str(request.form.get('details'))
+            if toChange in userInfo["deposits"].keys():
+                a = "deposits." + toChange
+            else:
+                a = "withdrawls." + toChange
+            print("DEBUGGGGGGGGGGGGGGGGGGGGGGGG: " + a)
+            print("DEBUGGGGGGGGGGGGGGGGGGGGGGGG: " + username)
+            users.update({"user": username},
+                {"$set": {a: float(request.form['newval'][1:]),     # substring to remove dollar sign from input
                     }})
-            return redirect('/dashboard')
-        else: 
+
+            userInfo = list(users.find({"user": username}))[0]
+            return render_template("dashboard.html", user=userInfo, message="") # redirect('/dashboard')
+        else:
             return render_template("update.html", user=userInfo)
-    else: 
-        return redirect('/login')
+    else:
+        #return redirect('/login')
+        return render_template("login.html", message="")
 
         '''
         print(type(curUser))
@@ -129,20 +139,22 @@ def new_entry():
             users.update({"user": username}, 
                 {"$set": {a: float(request.form['amount']),
                     }})
-            return redirect('/dashboard')
+            # return redirect('/dashboard')
+            userInfo = list(users.find({"user": username}))[0]
+            return render_template("dashboard.html", user=userInfo, message="")
         else: 
             return render_template("new-entry.html", user=userInfo)
     else: 
-        return redirect('/login')
+        return render_template("login.html", message="") #redirect('/login')
 
-@app.route('/add')
-def add():
+@app.route('/clear')
+def clear():
     users.remove({})
     #users.insert({"user": "tammy", "password": "yay", "firstName": "Tammy", "lastName": "Chen", "deposits":{"Work - May A": 410, "Work - May B": 320, "Allowance": 30}, 
     #               "withdrawls":{"Brunch w/ Friends": 22, "Airpods": 250, "Mini-fan": 19}})
 
     #print(loadUsers())
-    return "yay"
+    return "DB cleared successfully."
 
 '''
 def loadUsers():
@@ -157,7 +169,7 @@ def dashboard():
         userInfo = list(users.find({"user": username}))[0]
         return render_template("dashboard.html", user=userInfo, message="")
     else:
-        return redirect('/login')
+        return render_template("login.html", message="") #redirect('/login')
 
 @app.route('/preferences', methods=["GET", "POST"])
 def preferences(): 
@@ -190,15 +202,12 @@ def preferences():
         else: 
             return render_template("preferences.html", user = userInfo, message="")
     else: 
-        return redirect('/login')
+        return render_template("login.html", message="") #redirect('/login')
 
 @app.route('/logout')
 def logout():
     if checkAuth():
         session.pop('username')
-        return redirect('/login')
+        return render_template("login.html", message="") #redirect('/login')
     else: 
-        return redirect('/login')
-
-
-
+        return render_template("login.html", message="") #redirect('/login')

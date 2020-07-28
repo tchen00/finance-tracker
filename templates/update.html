@@ -1,5 +1,4 @@
 <html>
-
 <head>
 	<title>Welcome, {{user.firstName}}</title>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
@@ -21,7 +20,7 @@
 	</script>
 </head>
 
-<body>
+<body onload="changeComboBox({{user.deposits}}); showCurVal({{user.deposits}}, {{user.withdrawls}})">
 <!--Navbar -->
 <nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="#">TECK</a>
@@ -72,20 +71,58 @@
 	<h3>UPDATE FORM</h3>
 	<form method="post" action="/update">
 		<label for="category">Choose a category whose value to replace:</label>
-		<select name="category">
-                {% for deposit in user.deposits %}
-                    <option value="{{deposit}}">{{deposit}}</option>
-                {% endfor %}
-                {% for withdrawl in user.withdrawls %}
-                    <option value="{{withdrawl}}">{{withdrawl}}</option>
-                {% endfor %}
-            </select>
 
-		$<input type="text" name="newval"></input><br>
+        <input type="radio" id="deposits" name="category" value="deposits" checked onchange="changeComboBox({{user.deposits}}); showCurVal({{user.deposits}}, {{user.withdrawls}})">
+        <label for="deposits">Deposit</label>
+
+        <input type="radio" id="withdrawls" name="category" value="withdrawls" onchange="changeComboBox({{user.withdrawls}}); showCurVal({{user.deposits}}, {{user.withdrawls}})">
+        <label for="withdrawls">Withdrawl</label><br>
+
+		<select id="category" name="details" onchange="showCurVal({{user.deposits}}, {{user.withdrawls}})">
+            <!--{% for deposit in user.deposits %}
+                <option value="{{deposit}}">{{deposit}}</option>
+            {% endfor %}
+            {% for withdrawl in user.withdrawls %}
+                <option value="{{withdrawl}}">{{withdrawl}}</option>
+            {% endfor %}-->
+        </select>
+
+		<input type="text" id="newval" name="newval"><br>
 		<input type="submit" value="Update">
     </form>
 
+    <script>
+        function changeComboBox(stuffToShow)
+        {
+            var comboBox = document.getElementById("category");
+
+            var length = comboBox.options.length;
+            for (i = length-1; i >= 0; i--)
+                comboBox.options[i] = null;
+
+            for (var key in stuffToShow) {
+                var el = document.createElement("option");
+                el.textContent = key;
+                el.value = key;
+                comboBox.appendChild(el);
+            }
+        }
+        function showCurVal(deposits, withdrawls)
+        {
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            });
+
+            var cat = document.getElementById("category");
+            var catSelected = cat.options[cat.selectedIndex].text;
+
+            if (catSelected in deposits)
+                document.getElementById("newval").value = formatter.format(deposits[catSelected]);
+            else
+                document.getElementById("newval").value = formatter.format(withdrawls[catSelected]);
+        }
+    </script>
 
 </body>
-
 </html>

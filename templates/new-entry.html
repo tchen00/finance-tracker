@@ -72,15 +72,22 @@
 
     <h3>NEW ENTRY FORM</h3>
 	<form method="post" action="/new_entry">
-		<label for="category">Withdrawl or Deposit?</label>
+		<!--<label for="category">Withdrawl or Deposit?</label>
 		<select name="category">
             <option value="deposits">Deposit</option>
             <option value="withdrawls">Withdrawl</option>
-        </select>
+        </select>-->
+
+        <input type="radio" id="deposits" name="category" value="deposits" checked>
+        <label for="deposits">Deposit</label>
+
+        <input type="radio" id="withdrawls" name="category" value="withdrawls">
+        <label for="withdrawls">Withdrawl</label>
+
         <br>
-        Details: <input type="text" name="title"></input><br>
+        Details: <input type="text" name="title"><br>
         <br>
-		Amount: <input type="text" name="amount"></input><br>
+		Amount: $<input type="text" name="amount"><br>
         <br>
 		<input type="submit" value="Add">
     </form>
