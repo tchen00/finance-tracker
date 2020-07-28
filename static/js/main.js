@@ -1,3 +1,15 @@
-HELPFUL !!
+function displayQuestion(answer) {
 
-https://formden.com/blog/conditional-form-field 
+  document.getElementById(answer + 'Question').style.display = "block";
+
+  if (answer == "yes") { // hide the div that is not selected
+
+    document.getElementById('noQuestion').style.display = "none";
+
+  } else if (answer == "no") {
+
+    document.getElementById('yesQuestion').style.display = "none";
+
+  }
+
+}

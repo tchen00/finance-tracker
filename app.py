@@ -91,9 +91,13 @@ def update():
     if checkAuth(): 
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
+        print(userInfo["deposits"])
         if request.method == "POST":
             toChange = str(request.form.get('category'))
-            a = "deposits" + "." + toChange
+            if toChange in userInfo["deposits"].keys():
+                a = "deposits" + "." + toChange
+            else: 
+                a = "withdrawls" + "." + toChange
             users.update({"user": username}, 
                 {"$set": {a: float(request.form['newval']),
                     }})
@@ -155,7 +159,12 @@ def dashboard():
     if checkAuth(): 
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
-        return render_template("dashboard.html", user=userInfo, message="")
+        balance = 0
+        for i in userInfo["deposits"].values():
+            balance += i
+        for i in userInfo["withdrawls"].values():
+            balance -= i
+        return render_template("dashboard.html", user=userInfo, message="", balance = balance)
     else:
         return redirect('/login')
 
