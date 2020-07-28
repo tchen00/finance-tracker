@@ -68,10 +68,16 @@
   </div>
 </nav>
 <!--/.Navbar -->
-	<h3>UPDATE FORM</h3>
+	<h3>{%if isDeleting%}DELETION{%else%}UPDATE{%endif%} FORM</h3>
 
-  <form method="post" action="/update">
-		<label for="category">Choose a category whose value to replace:</label>
+  <form method="post" action="{%if isDeleting%}/del{%else%}/update{%endif%}">
+		<label for="category">Choose a category whose value to 
+            {% if isDeleting %}
+                deleting
+            {%else %}
+                replace
+            {% endif %}
+            :</label>
         <input type="radio" id="deposits" name="category" value="deposits" checked onchange="changeComboBox({{user.deposits}}); showCurVal({{user.deposits}}, {{user.withdrawls}})">
         <label for="deposits">Deposit</label>
 
@@ -87,9 +93,10 @@
             {% endfor %}-->
         </select>
 
-		<input type="text" id="newval" name="newval"><br>
-
-		<input type="submit" value="Update">
+        {% if not isDeleting %}
+		    <input type="text" id="newval" name="newval"><br>
+        {% endif %}
+		<input type="submit" value="{%if isDeleting%}Delete{%else%}Update{%endif%}">
     </form>
   </div>
 

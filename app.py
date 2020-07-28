@@ -62,8 +62,8 @@ def login():
             #correctPass = loginUsers[0]['password']
             if bcrypt.hashpw(request.form['password'].encode('utf-8'), loginUsers[0]['password'].encode('utf-8')) == loginUsers[0]['password'].encode('utf-8'):
                 session['username'] = username
-                return redirect('/dashboard')
-                # return render_template("dashboard.html", user=loginUsers[0], message="")
+                # return redirect('/dashboard')
+                return render_template("dashboard.html", user=loginUsers[0], message="")
             else: # if password incorrect --> prompt login again 
                 return render_template("login.html", message= "Login failed. Password is incorrect.")
     else: 
@@ -106,30 +106,49 @@ def update():
             print("DEBUGGGGGGGGGGGGGGGGGGGGGGGG: " + username)
             # substring to remove dollar sign from input
             users.update({"user": username},
-                {"$set": {a: float(request.form['newval'][1:].replace(",","")),     
+                {"$set": {a: float(request.form['newval'][1:].replace(",", "")),     
                     }})
 
             userInfo = list(users.find({"user": username}))[0]
             return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo))) # redirect('/dashboard')
         else:
-            return render_template("update.html", user=userInfo)
+            return render_template("update.html", user=userInfo, isDeleting=False)
     else:
         #return redirect('/login')
         return render_template("login.html", message="")
 
-        '''
-        print(type(curUser))
-        xy = list(users.find({"user": curUser, "assets": toChange}))
-        print(x)
-        if len(x) == 0:
-            xy = list(users.find({"user": curUser, "liabilities": toChange})
+@app.route('/del', methods=['POST', 'GET'])
+def delete():
+    if checkAuth():
+        username = session['username']
+        userInfo = list(users.find({"user": username}))[0]
+        if request.method == "POST":
+            toChange = str(request.form["details"])
+            if toChange in userInfo["deposits"].keys():
+                a = "deposits." + toChange
+            else:
+                a = "withdrawls." + toChange
+            
+            users.remove({"user": username, toChange: a})
+            return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo))) # redirect('/dashboard')
+        else:
+            return render_template("update.html", user=userInfo, isDeleting=True)
+    else:
+        return render_template("login.html", message="You were kicked out. Login again")
 
-        for i in xy:
-            print(i)
-        x[toChange] = float(request.form["newval"])
+    '''
+    print(type(curUser))
+    xy = list(users.find({"user": curUser, "assets": toChange}))
+    print(x)
+    if len(x) == 0:
+        xy = list(users.find({"user": curUser, "liabilities": toChange})
 
-        return render_template("dashboard.html", user=curUser, message="Successfully updated.")
-        '''
+    for i in xy:
+        print(i)
+    x[toChange] = float(request.form["newval"])
+
+    return render_template("dashboard.html", user=curUser, message="Successfully updated.")
+    '''
 
 @app.route('/new_entry', methods=['GET', 'POST'])
 def new_entry():
