@@ -42,7 +42,8 @@ def index():
         curUser = list(users.find({"user": session['username']}))[0]
         return render_template('dashboard.html', user=curUser, message="")
     else: # if not logged in 
-        return redirect('/login')
+        return render_template('intro.html')
+        #return redirect('/login')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
