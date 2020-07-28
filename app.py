@@ -162,11 +162,15 @@ def dashboard():
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
         balance = 0
-        for i in userInfo["deposits"].values():
-            balance += i
-        for i in userInfo["withdrawls"].values():
-            balance -= i
-        return render_template("dashboard.html", user=userInfo, message="", balance = formatMoney(balance))
+        
+        if len(userInfo["deposits"].values()) > 0:
+            for i in userInfo["deposits"].values():
+                balance += i
+        if len(userInfo["withdrawls"].values()) > 0:
+            for i in userInfo["withdrawls"].values():
+                balance -= i
+        
+        return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(balance))
     else:
         return redirect('/login')
 
