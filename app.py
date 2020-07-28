@@ -8,8 +8,10 @@ from dotenv import load_dotenv
 import bcrypt
 from model import *
 
+
 # -- INITIALIZATION of APP --
 app = Flask(__name__)
+app.jinja_env.globals.update(formatMoney=formatMoney)
 
 # -- CREATION of SECRET KEY for SESSION --
 app.secret_key = os.urandom(32)
@@ -164,7 +166,7 @@ def dashboard():
             balance += i
         for i in userInfo["withdrawls"].values():
             balance -= i
-        return render_template("dashboard.html", user=userInfo, message="", balance = balance)
+        return render_template("dashboard.html", user=userInfo, message="", balance = formatMoney(balance))
     else:
         return redirect('/login')
 

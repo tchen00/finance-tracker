@@ -24,4 +24,6 @@ class User:
 
 def isEmpty(input): 
     return input == ''
-    
+
+def formatMoney(input): 
+    return "${:,.2f}".format(input)
