@@ -44,7 +44,7 @@ def checkAuth():
 def index():
     if checkAuth(): # if logged in
         curUser = list(users.find({"user": session['username']}))[0]
-        return render_template('dashboard.html', user=curUser, message="")
+        return render_template('dashboard.html', user=curUser, message="", balance=formatMoney(getBalance(curUser)))
     else: # if not logged in 
         return render_template('intro.html')
         #return redirect('/login')
@@ -62,8 +62,8 @@ def login():
             #correctPass = loginUsers[0]['password']
             if bcrypt.hashpw(request.form['password'].encode('utf-8'), loginUsers[0]['password'].encode('utf-8')) == loginUsers[0]['password'].encode('utf-8'):
                 session['username'] = username
-                # return redirect('/dashboard')
-                return render_template("dashboard.html", user=loginUsers[0], message="")
+                return redirect('/dashboard')
+                # return render_template("dashboard.html", user=loginUsers[0], message="")
             else: # if password incorrect --> prompt login again 
                 return render_template("login.html", message= "Login failed. Password is incorrect.")
     else: 
@@ -97,7 +97,6 @@ def update():
         userInfo = list(users.find({"user": username}))[0]
         print(userInfo["deposits"])
         if request.method == "POST":
-<<<<<<< HEAD
             toChange = str(request.form.get('details'))
             if toChange in userInfo["deposits"].keys():
                 a = "deposits." + toChange
@@ -105,21 +104,13 @@ def update():
                 a = "withdrawls." + toChange
             print("DEBUGGGGGGGGGGGGGGGGGGGGGGGG: " + a)
             print("DEBUGGGGGGGGGGGGGGGGGGGGGGGG: " + username)
+            # substring to remove dollar sign from input
             users.update({"user": username},
-                {"$set": {a: float(request.form['newval'][1:]),     # substring to remove dollar sign from input
-=======
-            toChange = str(request.form.get('category'))
-            if toChange in userInfo["deposits"].keys():
-                a = "deposits" + "." + toChange
-            else: 
-                a = "withdrawls" + "." + toChange
-            users.update({"user": username}, 
-                {"$set": {a: float(request.form['newval']),
->>>>>>> ab28b883915d2b0d025a556ba50e75f038748426
+                {"$set": {a: float(request.form['newval'][1:].replace(",","")),     
                     }})
 
             userInfo = list(users.find({"user": username}))[0]
-            return render_template("dashboard.html", user=userInfo, message="") # redirect('/dashboard')
+            return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo))) # redirect('/dashboard')
         else:
             return render_template("update.html", user=userInfo)
     else:
@@ -154,7 +145,7 @@ def new_entry():
                     }})
             # return redirect('/dashboard')
             userInfo = list(users.find({"user": username}))[0]
-            return render_template("dashboard.html", user=userInfo, message="")
+            return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo)))
         else: 
             return render_template("new-entry.html", user=userInfo)
     else: 
@@ -180,16 +171,7 @@ def dashboard():
     if checkAuth(): 
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
-        balance = 0
-        
-        if len(userInfo["deposits"].values()) > 0:
-            for i in userInfo["deposits"].values():
-                balance += i
-        if len(userInfo["withdrawls"].values()) > 0:
-            for i in userInfo["withdrawls"].values():
-                balance -= i
-        
-        return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(balance))
+        return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo)))
     else:
         return render_template("login.html", message="") #redirect('/login')
 
@@ -220,7 +202,7 @@ def preferences():
                     return render_template("preferences.html", user = userInfo, message="Passwords do not match.")
                 else:
                     users.update({"user": username}, {"$set": {"password": str(bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt()), 'utf-8'), }})
-            return render_template('dashboard.html', user= userInfo, message="credentials updated")
+            return render_template('dashboard.html', user= userInfo, message="credentials updated",balance=formatMoney(getBalance(userInfo)))
         else: 
             return render_template("preferences.html", user = userInfo, message="")
     else: 
