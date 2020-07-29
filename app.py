@@ -121,13 +121,16 @@ def delete():
     if checkAuth():
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
+        b = ""
         if request.method == "POST":
             toChange = str(request.form["details"])
             if toChange in userInfo["deposits"].keys():
                 a = "deposits." + toChange
+                b = "deposits"
                 #a = "deposits"
             else:
                 a = "withdrawls." + toChange
+                b = "withdrawls"
                 #a = "withdrawls"
             
             print("DEBUGGGGGGGGGGGGGGGG: " + str(username))
@@ -137,7 +140,8 @@ def delete():
             #users.remove({"user": username, toChange: a})
             #users.remove({"user": username, deposits["Paycheck"]})
 
-            users.update({"user": username}, {"$unset": {a: users[a][toChange]}})
+            users.update({"user": username}, {"$unset": {a: userInfo[b][toChange]}})
+            userInfo = list(users.find({"user": username}))[0]
             return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo))) # redirect('/dashboard')
         else:
             return render_template("update.html", user=userInfo, isDeleting=True)
