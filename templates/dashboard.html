@@ -26,10 +26,13 @@
 
         #sht {
             margin-bottom: 15px;
+            width: 30%;
+            border: 1px solid #ccc;
         }
 
         #sht td, th {
             padding: 7px;
+            border: 1px solid #ccc;
         }
 
         #sht th {
@@ -42,6 +45,14 @@
 
         #main, #sht {
             font-size: 14pt;
+        }
+
+        .descr {
+            font-weight: bold;
+        }
+
+        .val {
+            
         }
 
         @media (max-width: 1020px) {
@@ -125,40 +136,43 @@
 
 <div id="main">
     <center>
-        <p>{{message}}</p>
+        <p id="message">{{message}}</p>
         
         <h2 class="shtHeader">Balance Sheet for {{user.firstName}}</h2>
 
-        <table border="1" id="sht">
-            <tr>
-                <th>Deposits</th>
-                <th>Withdrawals</th>
-            </tr>
-
-            {% if user.deposits|length > user.withdrawls|length %}
-            {% for deposit in user.deposits %}
-            <tr>
-                <td>{{ deposit }}: {{ formatMoney(user.deposits[deposit]) }}</td>
-                {% if loop.index0 < user.withdrawls|length %}
-                <td>{{ (user.withdrawls.keys()|list)[loop.index0] }}: {{ formatMoney((user.withdrawls.values()|list)[loop.index0]) }}
-                </td>
+        <table id="sht" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Deposits</th>
+                    <th>Withdrawals</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if user.deposits|length > user.withdrawls|length %}
+                {% for deposit in user.deposits %}
+                <tr>
+                    <td><span class="descr">{{ deposit }}</span>: <span class="val">{{ formatMoney(user.deposits[deposit]) }}</span></td>
+                    {% if loop.index0 < user.withdrawls|length %}
+                    <td><span class="descr">{{ (user.withdrawls.keys()|list)[loop.index0] }}</span>: <span class="val">{{ formatMoney((user.withdrawls.values()|list)[loop.index0]) }}</span>
+                    </td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
                 {% else %}
-                <td></td>
+                {% for withdrawl in user.withdrawls %}
+                <tr>
+                    {% if loop.index0 < user.deposits|length %}
+                    <td><span class="descr">{{(user.deposits.keys()|list)[loop.index0]}}</span>: <span class="val">{{ formatMoney((user.deposits.values()|list)[loop.index0]) }}</span></td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    <td><span class="descr">{{withdrawl}}</span>: <span class="val">{{ formatMoney(user.withdrawls[withdrawl]) }}</span></td>
+                </tr>
+                {% endfor %}
                 {% endif %}
-            </tr>
-            {% endfor %}
-            {% else %}
-            {% for withdrawl in user.withdrawls %}
-            <tr>
-                {% if loop.index0 < user.deposits|length %}
-                <td>{{(user.deposits.keys()|list)[loop.index0]}}: {{ formatMoney((user.deposits.values()|list)[loop.index0]) }}</td>
-                {% else %}
-                <td></td>
-                {% endif %}
-                <td>{{withdrawl}}: {{ formatMoney(user.withdrawls[withdrawl]) }}</td>
-            </tr>
-            {% endfor %}
-            {% endif %}
+            </tbody>
         </table>
     <p>Balance: {{balance}}</p>
     </center>	

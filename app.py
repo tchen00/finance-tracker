@@ -7,7 +7,7 @@ import os
 from dotenv import load_dotenv
 import bcrypt
 from model import *
-import random 
+import random
 
 # -- INITIALIZATION of APP --
 app = Flask(__name__)
@@ -173,7 +173,7 @@ def new_entry():
             title = request.form['title']
             toChange = str(request.form.get('category'))
             if title in userInfo[toChange]:
-                return render_template("new-entry.html", user=userInfo, message="Transaction " + title + " already exists.")
+                return render_template("new-entry.html", user=userInfo, message="Transaction \"" + title + "\" already exists.")
             a = toChange + "." + title
             users.update({"user": username}, 
                 {"$set": {a: float(request.form['amount'].replace(",","").replace(" ", "")),
