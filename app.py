@@ -7,6 +7,7 @@ import os
 from dotenv import load_dotenv
 import bcrypt
 from model import *
+import random 
 
 # -- INITIALIZATION of APP --
 app = Flask(__name__)
@@ -83,7 +84,7 @@ def signup():
             if password != repeatPassword: 
                 return render_template("signup.html", message="The passwords do not match.")
             else:
-                users.insert({"user": username, "password": str(bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt()), 'utf-8'), "firstName": firstName, "lastName": lastName, "withdrawls":{}, "deposits":{}})
+                users.insert({"user": username, "password": str(bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt()), 'utf-8'), "firstName": firstName, "lastName": lastName, "withdrawls":{}, "deposits":{}, "requests":{}})
                 return render_template("login.html", message="") # redirect('/login')
     else:
         return render_template("signup.html", message="")
@@ -244,6 +245,31 @@ def preferences():
             return render_template("preferences.html", user = userInfo, message="")
     else: 
         return render_template("login.html", message="") #redirect('/login')
+
+@app.route('/request', methods=["GET", "POST"])
+def requestM():
+    if checkAuth():
+        username = session['username']
+        userInfo = list(users.find({"user": username}))[0]
+        print(userInfo["requests"])
+        if request.method == "POST":
+            toUser = request.form["toUsername"]
+            amount = request.form["amount"]
+            if len(list(users.find({"user": toUser}))) > 0: 
+                rand = random.randint(0,1000000000)
+                users.update({"user": toUser},
+                {"$set": {"requests": {"id": rand, username : amount, "userID": { "_id": ObjectId(str(_id)) }} ,     
+                    }})
+        return render_template("request.html", user=userInfo)
+    else: 
+        return render_template("login.html", message="") 
+
+@app.route('/request/<id>')
+def requestID(id):
+    if checkAuth():
+        username = session['username']
+        userInfo = list(users.find({"user": username}))[0]
+        return render_template("requestID.html", user=userInfo)
 
 @app.route('/logout')
 def logout():
