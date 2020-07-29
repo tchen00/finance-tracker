@@ -1,7 +1,7 @@
 <html>
 
 <head>
-	<title>Welcome, {{user.firstName}}</title>
+	<title>About Us</title>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
@@ -20,41 +20,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 	</script>
-
     <style>
-        .mb-1 {
-            margin-bottom: 30px !important;
-        }
-        #main {
-            padding: 15px;
-            border: 1px solid black;
-            width: 40%;
-            margin: auto;
-            background-color: white;
-        }
-
-        input[type="text"] {
-            height: 24px;
-        }
-
-        @media (max-width: 1020px) {
-            #main {
-                width: 60%;
-            }
-        }
-
-        @media (max-width: 630px) {
-            #main {
-                width: 90%;
-            }
-        }
-
-        @media (max-width: 341px) {
-            #main {
-                width: 100%;
-                border: 0;
-            }
-        }
         body {
             background-color: #f2faff;
         }
@@ -119,28 +85,6 @@
 </nav>
 <!--/.Navbar -->
 
-<div id="main">
-    <h3>New Transaction</h3>
-    <p id="message">{{message}}</p>
-	<form method="post" action="/new_entry">
-		<!--<label for="category">Withdrawl or Deposit?</label>
-		<select name="category">
-            <option value="deposits">Deposit</option>
-            <option value="withdrawls">Withdrawl</option>
-        </select>-->
-
-        <input type="radio" id="deposits" name="category" value="deposits" checked>
-        <label for="deposits">Deposit</label>
-
-        <input type="radio" id="withdrawls" name="category" value="withdrawls">
-        <label for="withdrawls">Withdrawal</label>
-
-        <br>
-        <label for="title">Details:</label> <input id="title" type="text" name="title"><br>
-		<label for="amount">Amount: $</label><input id="amount" type="text" name="amount" style="width: 6em"><br>
-        <br>
-		<input type="submit" value="Add">
-    </form>
-</div>
+Congrats!
 </body>
 </html>

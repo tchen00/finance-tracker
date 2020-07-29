@@ -281,3 +281,10 @@ def logout():
         return render_template("intro.html") #redirect('/login')
     else: 
         return render_template("intro.html") #redirect('/login')
+
+@app.route('/about')
+def about():
+    if checkAuth():
+        return render_template("about.html")
+    else: 
+        return render_template("intro.html") #redirect('/login')

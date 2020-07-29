@@ -3,7 +3,8 @@
 <head>
 	<title>Welcome, {{user.firstName}}</title>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -19,11 +20,16 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 	</script>
+    <style>
+        body {
+            background-color: #f2faff;
+        }
+    </style>
 </head>
 
 <body>
 <!--Navbar -->
-<nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="mb-1 navbar navbar-expand-lg navbar-light" style="background-color: #85d0ff; font-family: 'Lato', sans-serif;">
   <a class="navbar-brand" href="#">TECK</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
     aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +52,7 @@
         <a class="nav-link" href="/del">Delete Entry</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/del">Requests</a>
+        <a class="nav-link" href="/request">Requests</a>
       </li>
       <!--
       <li class="nav-item dropdown">
@@ -78,6 +84,7 @@
   </div>
 </nav>
 <!--/.Navbar -->
+
 
     <h3>Your Preferences</h3>
     <br>
