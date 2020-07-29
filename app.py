@@ -7,6 +7,7 @@ import os
 from dotenv import load_dotenv
 import bcrypt
 from model import *
+import random 
 
 # -- INITIALIZATION of APP --
 app = Flask(__name__)
@@ -83,7 +84,7 @@ def signup():
             if password != repeatPassword: 
                 return render_template("signup.html", message="The passwords do not match.")
             else:
-                users.insert({"user": username, "password": str(bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt()), 'utf-8'), "firstName": firstName, "lastName": lastName, "withdrawls":{}, "deposits":{}})
+                users.insert({"user": username, "password": str(bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt()), 'utf-8'), "firstName": firstName, "lastName": lastName, "withdrawls":{}, "deposits":{}, "requests":{}})
                 return render_template("login.html", message="") # redirect('/login')
     else:
         return render_template("signup.html", message="")
@@ -122,13 +123,16 @@ def delete():
     if checkAuth():
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
+        b = ""
         if request.method == "POST":
             toChange = str(request.form["details"])
             if toChange in userInfo["deposits"].keys():
                 a = "deposits." + toChange
+                b = "deposits"
                 #a = "deposits"
             else:
                 a = "withdrawls." + toChange
+                b = "withdrawls"
                 #a = "withdrawls"
             
             print("DEBUGGGGGGGGGGGGGGGG: " + str(username))
@@ -138,7 +142,8 @@ def delete():
             #users.remove({"user": username, toChange: a})
             #users.remove({"user": username, deposits["Paycheck"]})
 
-            users.update({"user": username}, {"$unset": {a: users[a][toChange]}})
+            users.update({"user": username}, {"$unset": {a: userInfo[b][toChange]}})
+            userInfo = list(users.find({"user": username}))[0]
             return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo))) # redirect('/dashboard')
         else:
             return render_template("update.html", user=userInfo, isDeleting=True, message="")
@@ -245,10 +250,35 @@ def preferences():
     else: 
         return render_template("login.html", message="") #redirect('/login')
 
+@app.route('/request', methods=["GET", "POST"])
+def requestM():
+    if checkAuth():
+        username = session['username']
+        userInfo = list(users.find({"user": username}))[0]
+        print(userInfo["requests"])
+        if request.method == "POST":
+            toUser = request.form["toUsername"]
+            amount = request.form["amount"]
+            if len(list(users.find({"user": toUser}))) > 0: 
+                rand = random.randint(0,1000000000)
+                users.update({"user": toUser},
+                {"$set": {"requests": {"id": rand, username : amount, "userID": { "_id": ObjectId(str(_id)) }} ,     
+                    }})
+        return render_template("request.html", user=userInfo)
+    else: 
+        return render_template("login.html", message="") 
+
+@app.route('/request/<id>')
+def requestID(id):
+    if checkAuth():
+        username = session['username']
+        userInfo = list(users.find({"user": username}))[0]
+        return render_template("requestID.html", user=userInfo)
+
 @app.route('/logout')
 def logout():
     if checkAuth():
         session.pop('username')
-        return render_template("login.html", message="") #redirect('/login')
+        return render_template("intro.html") #redirect('/login')
     else: 
-        return render_template("login.html", message="") #redirect('/login')
+        return render_template("intro.html") #redirect('/login')

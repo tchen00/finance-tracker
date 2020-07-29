@@ -19,41 +19,6 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 	</script>
-
-    <style>
-        .mb-1 {
-            margin-bottom: 30px !important;
-        }
-        #main {
-            padding: 15px;
-            border: 1px solid black;
-            width: 30%;
-            margin: auto;
-        }
-
-        input[type="text"] {
-            height: 25px;
-        }
-
-        @media (max-width: 1020px) {
-            #main {
-                width: 60%;
-            }
-        }
-
-        @media (max-width: 630px) {
-            #main {
-                width: 90%;
-            }
-        }
-
-        @media (max-width: 341px) {
-            #main {
-                width: 100%;
-                border: 0;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -81,7 +46,7 @@
         <a class="nav-link" href="/del">Delete Entry</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/del">Requests</a>
+        <a class="nav-link" href="/request">Requests</a>
       </li>
       <!--
       <li class="nav-item dropdown">
@@ -113,29 +78,25 @@
   </div>
 </nav>
 <!--/.Navbar -->
-<div id="main">
-    <h3>New Transaction</h3>
-    <p>{{message}}</p>
-	<form method="post" action="/new_entry">
+    {% for i in user.requests %}
+        <a href="/request/{{user.requests["id"]}}"> {{i}} requests {{user.requests[i]}}</a>
+    {% endfor %}
+
+
+    <h3>TRANSACTION FORM</h3>
+	<form method="post" action="/request">
 		<!--<label for="category">Withdrawl or Deposit?</label>
 		<select name="category">
             <option value="deposits">Deposit</option>
             <option value="withdrawls">Withdrawl</option>
         </select>-->
 
-        <input type="radio" id="deposits" name="category" value="deposits" checked>
-        <label for="deposits">Deposit</label>
+        Username: <input type="text" name="toUsername"><br>
+        Amount: $<input type="text" name="amount"><br>
+        <input type="submit" value="Request">
 
-        <input type="radio" id="withdrawls" name="category" value="withdrawls">
-        <label for="withdrawls">Withdrawal</label>
 
-        <br>
-        Details: <input type="text" name="title"><br>
-        <br>
-		Amount: $<input type="text" name="amount" style="width: 6em"><br>
-        <br>
-		<input type="submit" value="Add">
-    </form>
-</div>
+
 </body>
+
 </html>
