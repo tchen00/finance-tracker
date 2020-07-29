@@ -32,7 +32,7 @@
         }
 
         input[type="text"] {
-            height: 25px;
+            height: 24px;
         }
 
         @media (max-width: 1020px) {
@@ -115,7 +115,7 @@
 <!--/.Navbar -->
 <div id="main">
     <h3>New Transaction</h3>
-    <p>{{message}}</p>
+    <p id="message">{{message}}</p>
 	<form method="post" action="/new_entry">
 		<!--<label for="category">Withdrawl or Deposit?</label>
 		<select name="category">
@@ -130,9 +130,8 @@
         <label for="withdrawls">Withdrawal</label>
 
         <br>
-        Details: <input type="text" name="title"><br>
-        <br>
-		Amount: $<input type="text" name="amount" style="width: 6em"><br>
+        <label for="title">Details:</label> <input id="title" type="text" name="title"><br>
+		<label for="amount">Amount: $</label><input id="amount" type="text" name="amount" style="width: 6em"><br>
         <br>
 		<input type="submit" value="Add">
     </form>

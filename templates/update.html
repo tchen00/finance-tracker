@@ -29,6 +29,11 @@
             width: 30%;
             margin: auto;
         }
+
+        input[type="text"] {
+            height: 24px;
+        }
+
         #sameHeight {
             height: 1.7em;
             margin-bottom: 1em;
@@ -119,7 +124,7 @@
 </nav>
 <!--/.Navbar -->
 <div id="main">
-    <p>{{message}}</p>
+    <p id="message">{{message}}</p>
 	<h3>{%if isDeleting%}Delete{%else%}Update{%endif%} Transaction</h3>
 
   <form method="post" action="{%if isDeleting%}/del{%else%}/update{%endif%}">
