@@ -7,10 +7,10 @@ def formatMoney(input):
 
 def getBalance(user):
     balance = 0
-    if len(user["deposits"].values()) > 0:
-        for i in user["deposits"].values():
-            balance += i
-    if len(user["withdrawls"].values()) > 0:
-        for i in user["withdrawls"].values():
-            balance -= i
+    
+    for i in user["deposits"].values():
+        balance += i
+
+    for i in user["withdrawls"].values():
+        balance -= i
     return balance

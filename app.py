@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 import bcrypt
 from model import *
 
-
 # -- INITIALIZATION of APP --
 app = Flask(__name__)
 app.jinja_env.globals.update(formatMoney=formatMoney)
@@ -63,7 +62,7 @@ def login():
             if bcrypt.hashpw(request.form['password'].encode('utf-8'), loginUsers[0]['password'].encode('utf-8')) == loginUsers[0]['password'].encode('utf-8'):
                 session['username'] = username
                 # return redirect('/dashboard')
-                return render_template("dashboard.html", user=loginUsers[0], message="")
+                return render_template("dashboard.html", user=loginUsers[0], message="", balance=formatMoney(getBalance(loginUsers[0])))
             else: # if password incorrect --> prompt login again 
                 return render_template("login.html", message= "Login failed. Password is incorrect.")
     else: 
@@ -83,8 +82,8 @@ def signup():
         else: 
             if password != repeatPassword: 
                 return render_template("signup.html", message="The passwords do not match.")
-            else: 
-                users.insert({"user": username, "password": str(bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt()), 'utf-8'), "firstName": firstName, "lastName": lastName, "expenses":{}})
+            else:
+                users.insert({"user": username, "password": str(bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt()), 'utf-8'), "firstName": firstName, "lastName": lastName, "withdrawls":{}, "deposits":{}})
                 return render_template("login.html", message="") # redirect('/login')
     else:
         return render_template("signup.html", message="")
@@ -126,10 +125,19 @@ def delete():
             toChange = str(request.form["details"])
             if toChange in userInfo["deposits"].keys():
                 a = "deposits." + toChange
+                #a = "deposits"
             else:
                 a = "withdrawls." + toChange
+                #a = "withdrawls"
             
-            users.remove({"user": username, toChange: a})
+            print("DEBUGGGGGGGGGGGGGGGG: " + str(username))
+            print("DEBUGGGGGGGGGGGGGGGG: " + str(toChange))
+            print("DEBUGGGGGGGGGGGGGGGG: " + str(a))
+            print("DEBUGGGGGGGGGGGGGGGG: " + str(users["deposits"]["Paycheck"]))
+            #users.remove({"user": username, toChange: a})
+            #users.remove({"user": username, deposits["Paycheck"]})
+
+            users.update({"user": username}, {"$unset": {a: users[a][toChange]}})
             return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo))) # redirect('/dashboard')
         else:
             return render_template("update.html", user=userInfo, isDeleting=True)
@@ -177,6 +185,12 @@ def clear():
     #               "withdrawls":{"Brunch w/ Friends": 22, "Airpods": 250, "Mini-fan": 19}})
 
     #print(loadUsers())
+    username="edward"
+    a="withdrawls.Apple"
+    toChange="Apple"
+
+    print(users)
+    users.update({"user": username}, {"$unset": {a: users[a][toChange]}})
     return "DB cleared successfully."
 
 '''
