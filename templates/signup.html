@@ -16,6 +16,13 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
         </script>
+        
+        <style>
+            h1 {
+                padding-top: 15px;
+                padding-bottom: 6px;
+            }
+        </style>
     </head>
     <body>
         <center>
@@ -23,29 +30,29 @@
 
         <p>{{message}}</p>
 
-        <div class="card" style="width: 20rem;">
+        <div class="card" style="width: 30rem; padding: 15px 30px;">
             <form method="POST" action="/signup">
-                <div class="form-group">
+                <div class="form-group" style="text-align: left">
                     <label for="firstName">First Name:</label>
                     <input type="text" class="form-control" name="firstName" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="text-align: left">
                     <label for="lastName">Last Name:</label>
                     <input type="text" class="form-control" name="lastName" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="text-align: left">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" name="username" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="text-align: left">
                     <label for="password">Password:</label>
                     <input type="password" class="form-control" name="password" required>
                 </div>
-                <div class="form-group">
-                    <label for="password">Retype Password:</label>
+                <div class="form-group" style="text-align: left">
+                    <label for="password">Re-type Password:</label>
                     <input type="password" class="form-control" name="repeatPassword" required>
                 </div>
-                <button type="submit" class="btn btn-dark">Sign Up</button>
+                <button type="submit" class="btn btn-dark" style="margin-top:7px;">Sign Up</button>
             </form>
         </div>
 

@@ -19,6 +19,50 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 	</script>
+    <style>
+        .shtHeader {
+            margin-bottom: 14px;
+        }
+
+        #sht {
+            margin-bottom: 15px;
+        }
+
+        #sht td, th {
+            padding: 7px;
+        }
+
+        #sht th {
+            text-align: center;
+        }
+
+        #main {
+            padding: 15px;
+        }
+
+        #main, #sht {
+            font-size: 14pt;
+        }
+
+        @media (max-width: 1020px) {
+            #main {
+                width: 60%;
+            }
+        }
+
+        @media (max-width: 630px) {
+            #main {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 341px) {
+            #main {
+                width: 100%;
+                border: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -71,44 +115,46 @@
 </nav>
 <!--/.Navbar -->
 
+<div id="main">
     <center>
+        <p>{{message}}</p>
+        
+        <h2 class="shtHeader">Balance Sheet for {{user.firstName}}</h2>
 
-	<p>{{message}}</p>
-    
-    <h1>Balance Sheet for {{user.firstName}}</h1>
+        <table border="1" id="sht">
+            <tr>
+                <th>Deposits</th>
+                <th>Withdrawals</th>
+            </tr>
 
-	<table border="1">
-		<tr>
-			<th>Deposits</th>
-			<th>Withdrawls</th>
-		</tr>
-
-		{% if user.deposits|length > user.withdrawls|length %}
-		{% for deposit in user.deposits %}
-		<tr>
-			<td>{{ deposit }}: {{ formatMoney(user.deposits[deposit]) }}</td>
-			{% if loop.index0 < user.withdrawls|length %}
-			<td>{{ (user.withdrawls.keys()|list)[loop.index0] }}: {{ formatMoney((user.withdrawls.values()|list)[loop.index0]) }}
-			</td>
-			{% else %}
-			<td></td>
-			{% endif %}
-		</tr>
-		{% endfor %}
-		{% else %}
-		{% for withdrawl in user.withdrawls %}
-		<tr>
-			{% if loop.index0 < user.deposits|length %}
-			<td>{{(user.deposits.keys()|list)[loop.index0]}}: {{ formatMoney((user.deposits.values()|list)[loop.index0]) }}</td>
-			{% else %}
-			<td></td>
-			{% endif %}
-			<td>{{withdrawl}}: {{ formatMoney(user.withdrawls[withdrawl]) }}</td>
-		</tr>
-		{% endfor %}
-		{% endif %}
-	</table>	
-    <h3>Balance: {{balance}}</h3>
+            {% if user.deposits|length > user.withdrawls|length %}
+            {% for deposit in user.deposits %}
+            <tr>
+                <td>{{ deposit }}: {{ formatMoney(user.deposits[deposit]) }}</td>
+                {% if loop.index0 < user.withdrawls|length %}
+                <td>{{ (user.withdrawls.keys()|list)[loop.index0] }}: {{ formatMoney((user.withdrawls.values()|list)[loop.index0]) }}
+                </td>
+                {% else %}
+                <td></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% else %}
+            {% for withdrawl in user.withdrawls %}
+            <tr>
+                {% if loop.index0 < user.deposits|length %}
+                <td>{{(user.deposits.keys()|list)[loop.index0]}}: {{ formatMoney((user.deposits.values()|list)[loop.index0]) }}</td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                <td>{{withdrawl}}: {{ formatMoney(user.withdrawls[withdrawl]) }}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
+    <p>Balance: {{balance}}</p>
+    </center>	
+</div>
 </body>
 
 </html>

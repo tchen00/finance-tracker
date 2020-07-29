@@ -101,6 +101,7 @@ def update():
                 a = "deposits." + toChange
             else:
                 a = "withdrawls." + toChange
+
             print("DEBUGGGGGGGGGGGGGGGGGGGGGGGG: " + a)
             print("DEBUGGGGGGGGGGGGGGGGGGGGGGGG: " + username)
             # substring to remove dollar sign from input
@@ -111,7 +112,7 @@ def update():
             userInfo = list(users.find({"user": username}))[0]
             return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo))) # redirect('/dashboard')
         else:
-            return render_template("update.html", user=userInfo, isDeleting=False)
+            return render_template("update.html", user=userInfo, isDeleting=False, message="")
     else:
         #return redirect('/login')
         return render_template("login.html", message="")
@@ -140,7 +141,7 @@ def delete():
             users.update({"user": username}, {"$unset": {a: users[a][toChange]}})
             return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo))) # redirect('/dashboard')
         else:
-            return render_template("update.html", user=userInfo, isDeleting=True)
+            return render_template("update.html", user=userInfo, isDeleting=True, message="")
     else:
         return render_template("login.html", message="You were kicked out. Login again")
 
@@ -166,15 +167,18 @@ def new_entry():
         if request.method == "POST":
             title = request.form['title']
             toChange = str(request.form.get('category'))
+            if not user[toChange].has_key():
+                return render_template("new-entry.html", user=userInfo, message="Transaction " + title + " already exists.")
+
             a = toChange + "." + title
             users.update({"user": username}, 
-                {"$set": {a: float(request.form['amount']),
+                {"$set": {a: float(request.form['amount'].replace(",","").replace(" ", "")),
                     }})
             # return redirect('/dashboard')
             userInfo = list(users.find({"user": username}))[0]
             return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo)))
         else: 
-            return render_template("new-entry.html", user=userInfo)
+            return render_template("new-entry.html", user=userInfo, message="")
     else: 
         return render_template("login.html", message="") #redirect('/login')
 
