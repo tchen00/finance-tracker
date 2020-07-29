@@ -249,6 +249,6 @@ def preferences():
 def logout():
     if checkAuth():
         session.pop('username')
-        return render_template("login.html", message="") #redirect('/login')
+        return render_template("intro.html") #redirect('/login')
     else: 
-        return render_template("login.html", message="") #redirect('/login')
+        return render_template("intro.html") #redirect('/login')
