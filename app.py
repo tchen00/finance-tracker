@@ -212,6 +212,7 @@ def dashboard():
     if checkAuth(): 
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
+        print(userInfo)
         return render_template("dashboard.html", user=userInfo, message="", balance=formatMoney(getBalance(userInfo)))
     else:
         return render_template("login.html", message="") #redirect('/login')
@@ -258,10 +259,11 @@ def requestM():
         if request.method == "POST":
             toUser = request.form["toUsername"]
             amount = request.form["amount"]
+            description = request.form["description"]
             if len(list(users.find({"user": toUser}))) > 0: 
                 rand = random.randint(0,1000000000)
                 users.update({"user": toUser},
-                {"$set": {"requests": {"active?": True; "id": rand, username : amount, "userID": { "_id": ObjectId(str(userInfo["_id"])) }} ,     
+                {"$set": {"requests": {"active?": True, "description": description, "id": rand, username : amount, "userID": { "_id": ObjectId(str(userInfo["_id"])) }} ,     
                     }})
             else: 
                 return render_template("request.html", user=userInfo, message="User does not exist.")
@@ -277,15 +279,31 @@ def requestID(id):
         #print(userInfo)
         senderInfo = list(users.find({"_id": userInfo["requests"]["userID"]["_id"]}))[0]
         amount = userInfo["requests"][senderInfo["user"]]
+        description = userInfo["requests"]["description"]
         if request.method == "POST":
             print("here")
             if request.form["approveOrDeny"] == "approve":
-                return "approved"
+                print(float(amount))
+                users.update({"user": username},
+                {"$set": {"withdrawls." + description: float(amount),     
+                    }})
+                users.update({"user": senderInfo["user"]},
+                {"$set": {"deposits." + description: float(amount),     
+                    }})
+                users.update({"user": username},
+                {"$set": {"requests" : {},     
+                    }})
+                userInfo = list(users.find({"user": username}))[0]
+                return render_template("dashboard.html", user=userInfo, message="Request approved.")
             else: 
-                return "denied"
+                users.update({"user": username},
+                {"$set": {"requests" : {},     
+                    }})
+                userInfo = list(users.find({"user": username}))[0]
+                return render_template("dashboard.html", user=userInfo, message="Request denied.")
             #return render_template("dashboard.html", user=userInfo, message="YAY")
         else: 
-            return render_template("requestID.html", user=userInfo, sender=senderInfo, amount =formatMoney(int(amount)))
+            return render_template("requestID.html", user=userInfo, sender=senderInfo, description = description,amount =formatMoney(int(amount)))
     else:
         return render_template("login.html", message="")
 

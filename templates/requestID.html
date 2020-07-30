@@ -28,9 +28,46 @@
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 	</script>
     <style>
+  
+        .mb-1 {
+            margin-bottom: 30px !important;
+        }
+        #main {
+            padding: 15px;
+            border: 1px solid black;
+            width: 40%;
+            margin: auto;
+            background-color: white;
+            border-radius: 15px;
+
+        }
+
+        input[type="text"] {
+            height: 24px;
+        }
+
+        @media (max-width: 1020px) {
+            #main {
+                width: 60%;
+            }
+        }
+
+        @media (max-width: 630px) {
+            #main {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 341px) {
+            #main {
+                width: 100%;
+                border: 0;
+            }
+        }
         body {
             background-color: #f2faff;
         }
+    
     </style>
 </head>
 
@@ -93,20 +130,24 @@
   </div>
 </nav>
 <!--/.Navbar -->
-
-    <h1> Request Information </h1>
-    <h3> Your Information </h3>
+<div id="main">
+    <center>
+    <h1> Request Information </h1> <hr>
+    <h3> <u>Your Information</u> </h3>
     <b> First Name:  </b> {{user.firstName}} <br>
     <b> Last Name: </b> {{user.lastName}} <br>
-    <h3> Requester Information: </h3>
+    <h3> <u>Requester Information:</u> </h3>
     <b> First Name:  </b> {{sender.firstName}} <br>
     <b> Last Name: </b> {{sender.lastName}} <br>
-    <h3> Request Information </h3>
-    <b> Amount: </b> {{amount}}
+    <h3> <u>Request Information: </u></h3>
+    <b> Amount: </b> {{amount}} <br>
+    <b> Description: </b> {{description}}
     <hr>
     <form method="post" action="/request/{{user.requests.id}}" style="font-family: 'Quicksand', sans-serif; text-align: center;">
         <label for="title"><b>Approve/Deny</b></label> <input id="title" type="text" name="approveOrDeny" size="50%"><br>
         <input type="submit" value="SUBMIT" class="btn btn-outline-dark" style="font-family: 'Quicksand', sans-serif; text-align: center; font-weight:bold;">
     </form>
+    </center>
+</div>
 </body>
 </html>

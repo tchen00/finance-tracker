@@ -131,10 +131,6 @@
 </nav>
 <!--/.Navbar -->
 
-    {% for i in user.requests %}
-        <a href="/request/{{user.requests["id"]}}"> {{i}} requests {{user.requests[i]}}</a>
-    {% endfor %}
-
     <div id="main">
     <h3 style="font-family: 'Bebas Neue', cursive;font-size: 50px; text-align: center;">New REQUEST</h3>
     <hr>
@@ -148,10 +144,14 @@
 
         <b> Username:</b> <input type="text" name="toUsername"><br><br>
         <b>Amount:</b> <input type="number" name="amount"><br><br>
+        <b> Description:</b> <input type="text" name="description"><br><br>
+
 		<input type="submit" value="SUBMIT" class="btn btn-outline-dark" style="font-family: 'Quicksand', sans-serif; text-align: center; font-weight:bold;">
 
 	</form>
     </div>
+    <br>
+    <center> <b>Incoming Request:</b> <a href="/request/{{user.requests["id"]}}"> {{user.requests["id"]}}</a> </center>
 
 
 </body>
