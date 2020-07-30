@@ -23,7 +23,7 @@ load_dotenv()
 MONGO_USER = os.getenv("MONGO_USER")
 MONGO_PASSWORD = os.getenv("MONGO_PASSWORD")
 
-# --- DATABASE SETUP -- 
+# --- DATABASE SETUP --
 # NAME of DATABASE
 app.config['MONGO_DBNAME'] = 'users' 
 # URI of DATBASE
@@ -281,7 +281,7 @@ def requestID(id):
         userInfo = list(users.find({"user": username}))[0]
         #print(userInfo)
         senderInfo = list(users.find({"_id": userInfo["requests"]["userID"]["_id"]}))[0]
-        amount = userInfo["requests"][senderInfo["user"]]
+        amount = userInfo["requests"][senderInfo["user"]].replace("$", "").replace(",", "")
         description = userInfo["requests"]["description"]
         if request.method == "POST":
             print("here")
