@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@300;700&display=swap" rel="stylesheet">
 
 
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
@@ -128,9 +129,9 @@
   </div>
 </nav>
 <!--/.Navbar -->
-<div id="main">
+<div id="main" style="font-family: 'Source Serif Pro', serif;">
     <center>
-    <h1> Request Information </h1> <hr>
+    <h1 style="font-family: 'Bebas Neue', cursive;font-size: 50px; text-align: center;"> Request Information </h1> <hr>
     <h3> <u>Your Information</u> </h3>
     <b> First Name:  </b> {{user.firstName}} <br>
     <b> Last Name: </b> {{user.lastName}} <br>
@@ -142,8 +143,8 @@
     <b> Description: </b> {{description}}
     <hr>
     <form method="post" action="/request/{{user.requests.id}}" style="font-family: 'Quicksand', sans-serif; text-align: center;">
-        <label for="title"><b>Approve/Deny</b></label> <input id="title" type="text" name="approveOrDeny" size="50%"><br>
-        <input type="submit" value="SUBMIT" class="btn btn-outline-dark" style="font-family: 'Quicksand', sans-serif; text-align: center; font-weight:bold;">
+         <input id="title" type="text" name="approveOrDeny" size="23%" placeHolder="&nbsp;&nbsp;type 'approve' or 'deny'&nbsp;&nbsp;"><br>
+        <br><input type="submit" value="SUBMIT" class="btn btn-outline-dark" style="font-family: 'Quicksand', sans-serif; text-align: center; font-weight:bold;">
     </form>
     </center>
 </div>

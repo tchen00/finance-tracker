@@ -23,7 +23,7 @@ load_dotenv()
 MONGO_USER = os.getenv("MONGO_USER")
 MONGO_PASSWORD = os.getenv("MONGO_PASSWORD")
 
-# --- DATABASE SETUP -- 
+# --- DATABASE SETUP --
 # NAME of DATABASE
 app.config['MONGO_DBNAME'] = 'users' 
 # URI of DATBASE
@@ -303,7 +303,7 @@ def requestID(id):
                 {"$set": {"requests" : {},     
                     }})
                 userInfo = list(users.find({"user": username}))[0]
-                return render_template("dashboard.html", user=userInfo, message="Request denied.")
+                return render_template("dashboard.html", user=userInfo, message="Request denied.", balance=formatMoney(getBalance(loginUsers[0])))
             #return render_template("dashboard.html", user=userInfo, message="YAY")
         else: 
             return render_template("requestID.html", user=userInfo, sender=senderInfo, description = description,amount =formatMoney(float(amount)))
