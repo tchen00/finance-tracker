@@ -193,12 +193,12 @@ def clear():
     #               "withdrawls":{"Brunch w/ Friends": 22, "Airpods": 250, "Mini-fan": 19}})
 
     #print(loadUsers())
-    username="edward"
-    a="withdrawls.Apple"
-    toChange="Apple"
+    #username="edward"
+    #a="withdrawls.Apple"
+    #toChange="Apple"
 
     print(users)
-    users.update({"user": username}, {"$unset": {a: users[a][toChange]}})
+    #users.update({"user": username}, {"$unset": {a: users[a][toChange]}})
     return "DB cleared successfully."
 
 '''
