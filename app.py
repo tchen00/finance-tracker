@@ -303,7 +303,7 @@ def requestID(id):
                 {"$set": {"requests" : {},     
                     }})
                 userInfo = list(users.find({"user": username}))[0]
-                return render_template("dashboard.html", user=userInfo, message="Request denied.")
+                return render_template("dashboard.html", user=userInfo, message="Request denied.", balance=formatMoney(getBalance(loginUsers[0])))
             #return render_template("dashboard.html", user=userInfo, message="YAY")
         else: 
             return render_template("requestID.html", user=userInfo, sender=senderInfo, description = description,amount =formatMoney(int(amount)))
