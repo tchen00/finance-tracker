@@ -5,6 +5,13 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fjalla+One&family=Roboto:ital,wght@0,100;0,500;1,100&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -20,7 +27,43 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 	</script>
+
     <style>
+        .mb-1 {
+            margin-bottom: 30px !important;
+        }
+        #main {
+            padding: 15px;
+            border: 1px solid black;
+            width: 40%;
+            margin: auto;
+            background-color: white;
+            border-radius: 15px;
+
+        }
+
+        input[type="text"] {
+            height: 24px;
+        }
+
+        @media (max-width: 1020px) {
+            #main {
+                width: 60%;
+            }
+        }
+
+        @media (max-width: 630px) {
+            #main {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 341px) {
+            #main {
+                width: 100%;
+                border: 0;
+            }
+        }
         body {
             background-color: #f2faff;
         }
@@ -87,23 +130,27 @@
 </nav>
 <!--/.Navbar -->
 
+    <div id="main">
+    <h3 style="font-family: 'Bebas Neue', cursive;font-size: 50px; text-align: center;">MY PREFERNENCES</h3>
+    <hr>
+    <center>
+            {{message}}
 
-    <h3>Your Preferences</h3>
-    <br>
-    {{message}}
-    <br>
 	<form method="post" action="/preferences">
         <br>
-        First Name: <input type="text" name="firstName"></input><br>
+        <input type="text" name="firstName" placeHolder="update first name"></input><br>
         <br>
-		Last Name: <input type="text" name="lastName"></input><br>
+		<input type="text" name="lastName" placeHolder="update last name"></input><br>
         <br>
-        Username: <input type="text" name="username"></input><br>
+        <input type="text" name="username" placeHolder="update username"></input><br>
         <br>
-        Password: <input type="password" name="password"></input><br>
+        <input type="password" name="password" placeHolder="change password"></input><br>
         <br>
-        Re-enter Password: <input type="password" name="repeatPassword"></input><br>
+        <input type="password" name="repeatPassword" placeHolder="confirm password"></input><br>
         <br>
 		<input type="submit" value="Update">
+	</form>
+    </center>
+    </div>
 </body>
 </html>
