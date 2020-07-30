@@ -5,6 +5,13 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fjalla+One&family=Roboto:ital,wght@0,100;0,500;1,100&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -30,7 +37,7 @@
 <body>
 <!--Navbar -->
 <nav class="mb-1 navbar navbar-expand-lg navbar-light" style="background-color: #85d0ff; font-family: 'Lato', sans-serif;">
-  <a class="navbar-brand" href="#">TECK</a>
+  <a class="navbar-brand" href="/about">TECK</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
     aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -43,13 +50,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/update">Update Form</a>
+        <a class="nav-link" href="/update">Update </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/new_entry">New Entry</a>
+        <a class="nav-link" href="/new_entry">New </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/del">Delete Entry</a>
+        <a class="nav-link" href="/del">Delete </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/request">Requests</a>
@@ -71,13 +78,15 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user"></i>
+          {{user.firstName}} {{user.lastName}}
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-default"
           aria-labelledby="navbarDropdownMenuLink-333">
+            <a class="dropdown-item" href="/preferences">Account Details</a>
+
           <a class="dropdown-item" href="/preferences">My Preferences</a>
           <hr>
-          <a class="dropdown-item" href="/logout">Logout</a>
+          <center><a class="dropdown-item" href="/logout">Logout</a></center>
         </div>
       </li>
     </ul>

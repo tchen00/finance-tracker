@@ -5,6 +5,13 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fjalla+One&family=Roboto:ital,wght@0,100;0,500;1,100&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -31,6 +38,8 @@
             width: 40%;
             margin: auto;
             background-color: white;
+            border-radius: 15px;
+
         }
 
         input[type="text"] {
@@ -64,7 +73,7 @@
 <body>
 <!--Navbar -->
 <nav class="mb-1 navbar navbar-expand-lg navbar-light" style="background-color: #85d0ff; font-family: 'Lato', sans-serif;">
-  <a class="navbar-brand" href="#">TECK</a>
+  <a class="navbar-brand" href="/about">TECK</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
     aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -76,14 +85,14 @@
           <span class="sr-only">(current)</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/update">Update Form</a>
+    <li class="nav-item">
+        <a class="nav-link" href="/new_entry">New </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/new_entry">New Entry</a>
+        <a class="nav-link" href="/update">Update </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/del">Delete Entry</a>
+        <a class="nav-link" href="/del">Delete </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/request">Requests</a>
@@ -105,30 +114,32 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user"></i>
+          {{user.firstName}} {{user.lastName}}
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-default"
           aria-labelledby="navbarDropdownMenuLink-333">
+            <a class="dropdown-item" href="/preferences">Account Details</a>
+
           <a class="dropdown-item" href="/preferences">My Preferences</a>
           <hr>
-          <a class="dropdown-item" href="/logout">Logout</a>
+          <center><a class="dropdown-item" href="/logout">Logout</a></center>
         </div>
       </li>
     </ul>
   </div>
 </nav>
 <!--/.Navbar -->
-
 <div id="main">
-    <h3>New Transaction</h3>
+    <h3 style="font-family: 'Bebas Neue', cursive;font-size: 50px; text-align: center;">New Transaction</h3>
+    <hr>
     <p id="message">{{message}}</p>
-	<form method="post" action="/new_entry">
+	<form method="post" action="/new_entry" style="font-family: 'Quicksand', sans-serif; text-align: center;">
 		<!--<label for="category">Withdrawl or Deposit?</label>
 		<select name="category">
             <option value="deposits">Deposit</option>
             <option value="withdrawls">Withdrawl</option>
         </select>-->
-
+        <label for="category"><b>Choose a category whose value you would like to change: </b><br>
         <input type="radio" id="deposits" name="category" value="deposits" checked>
         <label for="deposits">Deposit</label>
 
@@ -136,10 +147,11 @@
         <label for="withdrawls">Withdrawal</label>
 
         <br>
-        <label for="title">Details:</label> <input id="title" type="text" name="title"><br>
-		<label for="amount">Amount: $</label><input id="amount" type="text" name="amount" style="width: 6em"><br>
-        <br>
-		<input type="submit" value="Add">
+        <label for="amount"><b>Amount:&nbsp;</b></label><input id="amount" type="number" name="amount" style="width: 5em"><br>
+        <label for="title"><b>Description:</b></label> <input id="title" type="text" name="title" size="50%"><br>
+
+        <br style="line-height: 90%;">
+		<input type="submit" value="SUBMIT" class="btn btn-outline-dark" style="font-family: 'Quicksand', sans-serif; text-align: center; font-weight:bold;">
     </form>
 </div>
 </body>
