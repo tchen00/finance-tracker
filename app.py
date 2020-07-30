@@ -268,6 +268,7 @@ def requestM():
                 users.update({"user": toUser},
                 {"$set": {"requests": {"active?": True, "description": description, "id": rand, username : amount, "userID": { "_id": ObjectId(str(userInfo["_id"])) }} ,     
                     }})
+                return render_template("request.html", user=userInfo, message="Your request has been sent.")
             else: 
                 return render_template("request.html", user=userInfo, message="User does not exist.")
         return render_template("request.html", user=userInfo, message="")
