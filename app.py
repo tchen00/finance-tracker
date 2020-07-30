@@ -261,18 +261,33 @@ def requestM():
             if len(list(users.find({"user": toUser}))) > 0: 
                 rand = random.randint(0,1000000000)
                 users.update({"user": toUser},
-                {"$set": {"requests": {"id": rand, username : amount, "userID": { "_id": ObjectId(str(_id)) }} ,     
+                {"$set": {"requests": {"active?": True; "id": rand, username : amount, "userID": { "_id": ObjectId(str(userInfo["_id"])) }} ,     
                     }})
-        return render_template("request.html", user=userInfo)
+            else: 
+                return render_template("request.html", user=userInfo, message="User does not exist.")
+        return render_template("request.html", user=userInfo, message="")
     else: 
         return render_template("login.html", message="") 
 
-@app.route('/request/<id>')
+@app.route('/request/<id>', methods=["GET", "POST"])
 def requestID(id):
     if checkAuth():
         username = session['username']
         userInfo = list(users.find({"user": username}))[0]
-        return render_template("requestID.html", user=userInfo)
+        #print(userInfo)
+        senderInfo = list(users.find({"_id": userInfo["requests"]["userID"]["_id"]}))[0]
+        amount = userInfo["requests"][senderInfo["user"]]
+        if request.method == "POST":
+            print("here")
+            if request.form["approveOrDeny"] == "approve":
+                return "approved"
+            else: 
+                return "denied"
+            #return render_template("dashboard.html", user=userInfo, message="YAY")
+        else: 
+            return render_template("requestID.html", user=userInfo, sender=senderInfo, amount =formatMoney(int(amount)))
+    else:
+        return render_template("login.html", message="")
 
 @app.route('/logout')
 def logout():

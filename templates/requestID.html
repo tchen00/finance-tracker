@@ -98,8 +98,15 @@
     <h3> Your Information </h3>
     <b> First Name:  </b> {{user.firstName}} <br>
     <b> Last Name: </b> {{user.lastName}} <br>
-    {% for i in user.requests %}
-        {{i}} requests {{user.requests[i]}}
-    {% endfor %}
+    <h3> Requester Information: </h3>
+    <b> First Name:  </b> {{sender.firstName}} <br>
+    <b> Last Name: </b> {{sender.lastName}} <br>
+    <h3> Request Information </h3>
+    <b> Amount: </b> {{amount}}
+    <hr>
+    <form method="post" action="/request/{{user.requests.id}}" style="font-family: 'Quicksand', sans-serif; text-align: center;">
+        <label for="title"><b>Approve/Deny</b></label> <input id="title" type="text" name="approveOrDeny" size="50%"><br>
+        <input type="submit" value="SUBMIT" class="btn btn-outline-dark" style="font-family: 'Quicksand', sans-serif; text-align: center; font-weight:bold;">
+    </form>
 </body>
 </html>
