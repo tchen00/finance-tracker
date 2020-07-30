@@ -174,6 +174,9 @@ def new_entry():
             toChange = str(request.form.get('category'))
             if title in userInfo[toChange]:
                 return render_template("new-entry.html", user=userInfo, message="Transaction \"" + title + "\" already exists.")
+
+            if title.lower() == "you know the rules and so do i":
+                return redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
             a = toChange + "." + title
             users.update({"user": username}, 
                 {"$set": {a: float(request.form['amount'].replace(",","").replace(" ", "")),
