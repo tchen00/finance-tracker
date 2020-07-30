@@ -285,7 +285,7 @@ def requestID(id):
         description = userInfo["requests"]["description"]
         if request.method == "POST":
             print("here")
-            if request.form["approveOrDeny"] == "approve":
+            if request.form["approveOrDeny"].lower() == "approve":
                 print(float(amount))
                 users.update({"user": username},
                 {"$set": {"withdrawls." + description: float(amount),     
