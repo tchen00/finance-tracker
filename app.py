@@ -281,7 +281,7 @@ def requestID(id):
         userInfo = list(users.find({"user": username}))[0]
         #print(userInfo)
         senderInfo = list(users.find({"_id": userInfo["requests"]["userID"]["_id"]}))[0]
-        amount = userInfo["requests"][senderInfo["user"]]
+        amount = userInfo["requests"][senderInfo["user"]].replace("$", "").replace(",", "")
         description = userInfo["requests"]["description"]
         if request.method == "POST":
             print("here")
@@ -306,7 +306,7 @@ def requestID(id):
                 return render_template("dashboard.html", user=userInfo, message="Request denied.")
             #return render_template("dashboard.html", user=userInfo, message="YAY")
         else: 
-            return render_template("requestID.html", user=userInfo, sender=senderInfo, description = description,amount =formatMoney(int(amount)))
+            return render_template("requestID.html", user=userInfo, sender=senderInfo, description = description,amount =formatMoney(float(amount)))
     else:
         return render_template("login.html", message="")
 
