@@ -1,7 +1,11 @@
 <html>
 
 <head>
-	<title>Welcome, {{user.firstName}}</title>
+	<title>Requests | {{user.firstName}}</title>
+    <head profile="http://www.w3.org/2005/10/profile">
+<link rel="icon" 
+      type="image/png" 
+      href="https://i.pinimg.com/originals/c9/13/53/c9135320c7de02dbec0823e3c6c3afe9.png">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?q={{ time }}" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
@@ -120,8 +124,7 @@
         <div class="dropdown-menu dropdown-menu-right dropdown-default"
           aria-labelledby="navbarDropdownMenuLink-333">
           <a class="dropdown-item" href="/preferences">My Preferences</a>
-          <hr>
-          <center><a class="dropdown-item" href="/logout">Log out</a></center>
+          <a class="dropdown-item" href="/logout">Log Out</a>
         </div>
       </li>
     </ul>
