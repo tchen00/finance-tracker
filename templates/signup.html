@@ -1,7 +1,7 @@
 <html>
     <head>
 <head>
-	<title>Welcome!</title>
+	<title>Register | Project TECK</title>
     <head profile="http://www.w3.org/2005/10/profile">
 <link rel="icon" 
       type="image/png" 
@@ -61,34 +61,33 @@
         <header class="masthead">
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
-                    <div class="col-12 text-center">
+                    <div class="col-2">
+                    </div>
+                    <div class="col-6 text-center">
                         <div class="loginpanel">
                                                     <h1 class="font-weight-light" style="font-family: 'Bebas Neue', cursive;font-size: 100px;">Sign Up</h1><hr> 
 
                                             <p>{{message}}</p>
+                                            <center>
                         <form method="POST" action="/signup">
-                            <div class="form-group" style="text-align: left">
-                                <label for="firstName">First Name:</label>
-                                <input type="text" class="form-control" name="firstName" required>
+                            <div class="form-group" style="text-align: center; width:50%;">
+                                <input type="text" class="form-control" name="firstName" placeHolder="First Name" required>
                             </div>
-                            <div class="form-group" style="text-align: left">
-                                <label for="lastName">Last Name:</label>
-                                <input type="text" class="form-control" name="lastName" required>
+                            <div class="form-group" style="text-align: left; width:50%;">
+                                <input type="text" class="form-control" name="lastName" placeHolder="Last Name" required>
                             </div>
-                            <div class="form-group" style="text-align: left">
-                                <label for="username">Username</label>
-                                <input type="text" class="form-control" name="username" required>
+                            <div class="form-group" style="text-align: left; width:50%;">
+                                <input type="text" class="form-control" name="username" placeHolder="Username"required>
                             </div>
-                            <div class="form-group" style="text-align: left">
-                                <label for="password">Password:</label>
-                                <input type="password" class="form-control" name="password" required>
+                            <div class="form-group" style="text-align: left; width:50%;">
+                                <input type="password" class="form-control" name="password" placeHolder="Password"required>
                             </div>
-                            <div class="form-group" style="text-align: left">
-                                <label for="password">Re-type Password:</label>
-                                <input type="password" class="form-control" name="repeatPassword" required>
+                            <div class="form-group" style="text-align: left; width:50%;">
+                                <input type="password" class="form-control" name="repeatPassword" placeHolder="Confirm Password"required>
                             </div>
                             <button type="submit" class="btn btn-dark" style="margin-top:7px;">Sign Up</button>
                         </form>
+                        </center>
                     </div>
         </div>
         </div>

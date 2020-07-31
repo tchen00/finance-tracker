@@ -273,7 +273,7 @@ def requestID(id):
                 {"$set": {"requests" : {},     
                     }})
                 userInfo = list(users.find({"user": username}))[0]
-                return render_template("dashboard.html", user=userInfo, message="Request approved.")
+                return render_template("dashboard.html", user=userInfo, message="Request approved.", balance=formatMoney(getBalance(userInfo)))
             else: 
                 users.update({"user": username},
                 {"$set": {"requests" : {},     
