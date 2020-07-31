@@ -102,9 +102,6 @@ def update():
                 a = "deposits." + toChange
             else:
                 a = "withdrawls." + toChange
-
-            print("DEBUGGGGGGGGGGGGGGGGGGGGGGGG: " + a)
-            print("DEBUGGGGGGGGGGGGGGGGGGGGGGGG: " + username)
             # substring to remove dollar sign from input
             users.update({"user": username},
                 {"$set": {a: float(request.form['newval'][1:].replace(",", "")),     
@@ -133,14 +130,6 @@ def delete():
             else:
                 a = "withdrawls." + toChange
                 b = "withdrawls"
-                #a = "withdrawls"
-            
-            print("DEBUGGGGGGGGGGGGGGGG: " + str(username))
-            print("DEBUGGGGGGGGGGGGGGGG: " + str(toChange))
-            print("DEBUGGGGGGGGGGGGGGGG: " + str(a))
-            print("DEBUGGGGGGGGGGGGGGGG: " + str(users["deposits"]["Paycheck"]))
-            #users.remove({"user": username, toChange: a})
-            #users.remove({"user": username, deposits["Paycheck"]})
 
             users.update({"user": username}, {"$unset": {a: userInfo[b][toChange]}})
             userInfo = list(users.find({"user": username}))[0]
@@ -150,19 +139,6 @@ def delete():
     else:
         return render_template("login.html", message="You were kicked out. Login again")
 
-    '''
-    print(type(curUser))
-    xy = list(users.find({"user": curUser, "assets": toChange}))
-    print(x)
-    if len(x) == 0:
-        xy = list(users.find({"user": curUser, "liabilities": toChange})
-
-    for i in xy:
-        print(i)
-    x[toChange] = float(request.form["newval"])
-
-    return render_template("dashboard.html", user=curUser, message="Successfully updated.")
-    '''
 
 @app.route('/new_entry', methods=['GET', 'POST'])
 def new_entry():
@@ -174,7 +150,6 @@ def new_entry():
             toChange = str(request.form.get('category'))
             if title in userInfo[toChange]:
                 return render_template("new-entry.html", user=userInfo, message="Transaction \"" + title + "\" already exists.")
-
             if title.lower() == "you know the rules and so do i":
                 return redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
             a = toChange + "." + title
